@@ -25,6 +25,13 @@
                                (id)[UIColor colorWithRed:1 green:0.361 blue:0.188 alpha:1].CGColor]];
     [[[self view] layer] insertSublayer:gradientLayer atIndex:0];
     
+    // iOS 10 fix
+    [_toolbar setBackgroundImage:[UIImage new]
+              forToolbarPosition:UIBarPositionAny
+                      barMetrics:UIBarMetricsDefault];
+    [_toolbar setShadowImage:[UIImage new]
+          forToolbarPosition:UIBarPositionAny];
+    
     [_toolbar setClipsToBounds:YES];
     
     [self share:nil];
