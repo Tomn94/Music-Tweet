@@ -13,8 +13,9 @@
     BOOL previousArtworkState;
 }
 
-@property (weak, nonatomic) IBOutlet UITextView *textField;
-@property (weak, nonatomic) IBOutlet UISwitch   *artwork;
-@property (weak, nonatomic) IBOutlet UIButton   *tweetBtn;
+@property (weak, nonatomic) IBOutlet UITextView  *textField;
+@property (weak, nonatomic) IBOutlet UISwitch    *artwork;
+@property (weak, nonatomic) IBOutlet UIImageView *artworkView;
+@property (weak, nonatomic) IBOutlet UIButton    *tweetBtn;
 
 @end

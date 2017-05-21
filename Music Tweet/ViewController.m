@@ -27,6 +27,9 @@
     _textField.layer.cornerRadius = 5;
     _textField.clipsToBounds = YES;
     
+    _artworkView.layer.cornerRadius = 5;
+    _artworkView.clipsToBounds = YES;
+    
     previousArtworkState = YES;
     
     [self reset:nil];
@@ -54,6 +57,7 @@
     
     _textField.text = @"";
     _tweetBtn.enabled = NO;
+    _artworkView.image = nil;
     
     [MPMediaLibrary requestAuthorization:^(MPMediaLibraryAuthorizationStatus status) {
         
@@ -89,13 +93,14 @@
                         _textField.text = sLast;
                         _tweetBtn.enabled = YES;
                         
-                        MPMediaItemArtwork *illustration = [currentItem valueForProperty:MPMediaItemPropertyArtwork];
+                        UIImage *illustration = [[currentItem valueForProperty:MPMediaItemPropertyArtwork] imageWithSize:CGSizeMake(50, 50)];
                         if (_artwork.isEnabled)
                             previousArtworkState = _artwork.isOn;
                         _artwork.enabled = illustration;
                         if (!illustration) {
                             _artwork.on = NO;
                         } else {
+                            _artworkView.image = illustration;
                             _artwork.on = previousArtworkState;
                         }
                         
