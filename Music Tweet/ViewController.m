@@ -98,6 +98,8 @@
                         } else {
                             _artwork.on = previousArtworkState;
                         }
+                        
+                        [_textField becomeFirstResponder];
                     }
                     else
                         _textField.text = @"No song is currently playing or paused…";
