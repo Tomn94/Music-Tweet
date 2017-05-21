@@ -28,8 +28,6 @@
     _textField.layer.cornerRadius = 5;
     _textField.clipsToBounds = true;
     
-    [_tweetBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateDisabled];
-    
     [self reset:nil];
 }
 
@@ -49,13 +47,13 @@
 }
 
 /**
- Displays the current track info on the view controller
+   Displays the current track info on the view controller
  */
 - (IBAction)reset:(id)sender {
     
     [MPMediaLibrary requestAuthorization:^(MPMediaLibraryAuthorizationStatus status) {
         
-        NSString *errorMessage = @"Error: Unable to know why song is currently playing";
+        NSString *errorMessage = @"Error: Unable to know which song is currently playing";
         
         dispatch_async(dispatch_get_main_queue(), ^{
             
