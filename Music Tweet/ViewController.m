@@ -51,14 +51,14 @@
  */
 - (IBAction)reset:(id)sender {
     
+    _textField.text = @"";
+    _tweetBtn.enabled = NO;
+    
     [MPMediaLibrary requestAuthorization:^(MPMediaLibraryAuthorizationStatus status) {
         
         NSString *errorMessage = @"Error: Unable to know which song is currently playing";
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            
-            _tweetBtn.enabled = NO;
-            _textField.text = @"";
         
             switch (status)
             {
