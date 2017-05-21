@@ -37,50 +37,13 @@
 
 - (IBAction)share:(id)sender
 {
-    if (!sender)
+    if (!_tweetBtn.isUserInteractionEnabled)
         return;
     
-    if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter])
-    {
-        NSString *s1 = @"#NP ▶️ ";
-        MPMediaItem *currentItem = [[MPMusicPlayerController systemMusicPlayer] nowPlayingItem];
-        if (currentItem)
-        {
-            NSString *s2 = [s1 stringByAppendingString:[currentItem valueForProperty:MPMediaItemPropertyTitle]];
-            NSString *s3 = [s2 stringByAppendingString:@" — "];
-            NSString *s4 = [s3 stringByAppendingString:[currentItem valueForProperty:MPMediaItemPropertyArtist]];
-            NSString *sLast = [s4 stringByAppendingString:@"\n"];
-            
-            SLComposeViewController *tweetSheet = [SLComposeViewController
-                                                   composeViewControllerForServiceType:SLServiceTypeTwitter];
-            [tweetSheet setInitialText:sLast];
-            MPMediaItemArtwork *illustration = [currentItem valueForProperty:MPMediaItemPropertyArtwork];
-            if (illustration && _artwork.isOn)
-                [tweetSheet addImage:[illustration imageWithSize:CGSizeMake(320, 320)]];
-            
-            [self presentViewController:tweetSheet animated:YES completion:nil];
-        }
-        else
-        {
-            UIAlertView *alertView = [[UIAlertView alloc]
-                                      initWithTitle:@"Un problème est survenu"
-                                      message:@"Aucune musique lue ou en pause !"
-                                      delegate:self
-                                      cancelButtonTitle:@"OK"
-                                      otherButtonTitles:nil];
-            [alertView show];
-        }
-    }
-    else
-    {
-        UIAlertView *alertView = [[UIAlertView alloc]
-                                  initWithTitle:@"Un problème est survenu"
-                                  message:@"Impossible de tweeter !"
-                                  delegate:self
-                                  cancelButtonTitle:@"OK"
-                                  otherButtonTitles:nil];
-        [alertView show];
-    }
+//    MPMediaItemArtwork *illustration = [currentItem valueForProperty:MPMediaItemPropertyArtwork];
+//    if (illustration && _artwork.isOn)
+//        [tweetSheet addImage:[illustration imageWithSize:CGSizeMake(320, 320)]];
+        
 }
 
 /**
