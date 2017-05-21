@@ -88,23 +88,49 @@
  */
 - (IBAction)reset:(id)sender {
     
-    MPMediaItem *currentItem = [[MPMusicPlayerController systemMusicPlayer] nowPlayingItem];
-    if (currentItem)
-    {
-        NSString *s1 = @"#NP ▶️ ";
-        NSString *s2 = [s1 stringByAppendingString:[currentItem valueForProperty:MPMediaItemPropertyTitle]];
-        NSString *s3 = [s2 stringByAppendingString:@" — "];
-        NSString *s4 = [s3 stringByAppendingString:[currentItem valueForProperty:MPMediaItemPropertyArtist]];
-        NSString *sLast = [s4 stringByAppendingString:@"\n"];
+    [MPMediaLibrary requestAuthorization:^(MPMediaLibraryAuthorizationStatus status) {
         
-        _textField.text = sLast;
-        _tweetBtn.userInteractionEnabled = YES;
-    }
-    else
-    {
-        _textField.text = @"No song is currently playing or paused…";
         _tweetBtn.userInteractionEnabled = NO;
-    }
+        NSString *errorMessage = @"Error: Unable to know why song is currently playing";
+        
+        switch (status)
+        {
+            case MPMediaLibraryAuthorizationStatusNotDetermined:
+                _textField.text = [errorMessage stringByAppendingString:@" because of an unknown reason"];
+                break;
+                
+            case MPMediaLibraryAuthorizationStatusDenied:
+                _textField.text = [errorMessage stringByAppendingString:@" unless you allow the app to access your Media Library"];
+                break;
+                
+            case MPMediaLibraryAuthorizationStatusRestricted:
+                _textField.text = [errorMessage stringByAppendingString:@" because of corporate or parental settings disabling access to your Media Library"];
+                break;
+                
+            case MPMediaLibraryAuthorizationStatusAuthorized: {
+                
+                MPMediaItem *currentItem = [[MPMusicPlayerController systemMusicPlayer] nowPlayingItem];
+                if (currentItem)
+                {
+                    NSString *s1 = @"#NP ▶️ ";
+                    NSString *s2 = [s1 stringByAppendingString:[currentItem valueForProperty:MPMediaItemPropertyTitle]];
+                    NSString *s3 = [s2 stringByAppendingString:@" — "];
+                    NSString *s4 = [s3 stringByAppendingString:[currentItem valueForProperty:MPMediaItemPropertyArtist]];
+                    NSString *sLast = [s4 stringByAppendingString:@"\n"];
+                    
+                    _textField.text = sLast;
+                    _tweetBtn.userInteractionEnabled = YES;
+                }
+                else
+                    _textField.text = @"No song is currently playing or paused…";
+                
+                break;
+            }
+                
+            default:
+                break;
+        }
+    }];
 }
 
 @end
