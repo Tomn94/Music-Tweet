@@ -58,7 +58,7 @@
     if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter])
     {
         NSString *s1 = @"#NP ▶️ ";
-        MPMediaItem *currentItem = [[MPMusicPlayerController iPodMusicPlayer] nowPlayingItem];
+        MPMediaItem *currentItem = [[MPMusicPlayerController systemMusicPlayer] nowPlayingItem];
         if (currentItem)
         {
             NSString *s2 = [s1 stringByAppendingString:[currentItem valueForProperty:MPMediaItemPropertyTitle]];
