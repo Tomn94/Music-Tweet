@@ -43,4 +43,29 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
+/**
+ Twitter callback after user login.
+ Gets the `oauth_verifier` value from Twitter in the OAuth process after Step 2
+ c.f. https://dev.twitter.com/web/sign-in/implementing
+
+ @param application This singleton object
+ @param url Callback URL
+ @param sourceApplication Bundle ID of the app requesting
+ @param annotation Property list with provided information
+ @return YES if the callback has been completly handled
+ */
+- (BOOL) application:(UIApplication *)application
+             openURL:(NSURL *)url
+   sourceApplication:(NSString *)sourceApplication
+          annotation:(id)annotation
+{
+    if ([sourceApplication isEqualToString:@""] && [url.scheme isEqualToString:@"musictweet"])
+    {
+//        NSString *query = url.query;
+        return YES;
+    }
+    
+    return NO;
+}
+
 @end
