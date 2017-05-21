@@ -11,7 +11,8 @@
 #import <MediaPlayer/MediaPlayer.h>
 
 @interface ViewController : UIViewController
-@property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
-@property (weak, nonatomic) IBOutlet UISwitch  *artwork;
+
+@property (weak, nonatomic) IBOutlet UITextView *textField;
+@property (weak, nonatomic) IBOutlet UISwitch   *artwork;
 
 @end

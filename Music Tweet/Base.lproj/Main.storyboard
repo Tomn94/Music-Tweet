@@ -1,8 +1,12 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11191" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES" initialViewController="vXZ-lx-hvc">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES" initialViewController="vXZ-lx-hvc">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11156"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -18,38 +22,82 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" barStyle="black" translatesAutoresizingMaskIntoConstraints="NO" id="MqS-45-YrO">
-                                <frame key="frameInset" minY="341" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <items>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="Cn2-Jd-bpb"/>
-                                    <barButtonItem style="plain" id="sjD-Fx-LZb">
-                                        <switch key="customView" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="gjq-FA-WjO">
-                                            <rect key="frame" x="99" y="6.5" width="51" height="31"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        </switch>
-                                    </barButtonItem>
-                                    <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="zQ9-Ge-7d6"/>
-                                    <barButtonItem systemItem="action" id="zOq-vI-wEQ">
-                                        <connections>
-                                            <action selector="share:" destination="vXZ-lx-hvc" id="jmF-Zf-tav"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="CCw-KS-EXS"/>
-                                </items>
-                                <color key="tintColor" red="0.96862745100000003" green="0.96862745100000003" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            </toolbar>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="GKA-9Q-DaC">
+                                <rect key="frame" x="16" y="32" width="343" height="276"/>
+                                <color key="backgroundColor" white="1" alpha="0.6953660102739726" colorSpace="calibratedWhite"/>
+                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliq</string>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wrD-B7-4MU">
+                                <rect key="frame" x="16" y="320" width="343" height="31"/>
+                                <subviews>
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zks-He-mk2">
+                                        <rect key="frame" x="1" y="0.0" width="51" height="31"/>
+                                    </switch>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Artwork" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E1H-wa-zTG">
+                                        <rect key="frame" x="65" y="1" width="278" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="0.77000000000000002" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="E1H-wa-zTG" secondAttribute="trailing" id="Bup-nQ-in4"/>
+                                    <constraint firstItem="E1H-wa-zTG" firstAttribute="top" secondItem="wrD-B7-4MU" secondAttribute="top" constant="1" id="LNN-bP-dgK"/>
+                                    <constraint firstAttribute="height" constant="31" id="RwZ-E7-Gzd"/>
+                                    <constraint firstItem="E1H-wa-zTG" firstAttribute="height" secondItem="zks-He-mk2" secondAttribute="height" constant="-1" id="VjS-6J-BJn"/>
+                                    <constraint firstItem="E1H-wa-zTG" firstAttribute="leading" secondItem="zks-He-mk2" secondAttribute="trailing" constant="15" id="kFo-Vf-fFJ"/>
+                                    <constraint firstItem="zks-He-mk2" firstAttribute="top" secondItem="wrD-B7-4MU" secondAttribute="top" id="s3W-Fg-naf"/>
+                                    <constraint firstItem="zks-He-mk2" firstAttribute="leading" secondItem="wrD-B7-4MU" secondAttribute="leading" constant="1" id="sT5-2r-AZC"/>
+                                </constraints>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m02-ve-aoQ">
+                                <rect key="frame" x="88.5" y="356" width="58" height="39"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="22"/>
+                                <state key="normal" title="Reset">
+                                    <color key="titleColor" red="1" green="0.92282443579999995" blue="0.65049913189999997" alpha="0.6953660103" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="reset:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="PDV-IM-0ey"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xet-va-S7c">
+                                <rect key="frame" x="225.5" y="356" width="64" height="39"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="22"/>
+                                <state key="normal" title="Tweet">
+                                    <color key="titleColor" red="1" green="0.92282443576388884" blue="0.65049913194444442" alpha="0.6953660102739726" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="share:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="rqe-vh-Nuc"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.97350239753723145" green="0.32585456967353821" blue="0.24539920687675476" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="xet-va-S7c" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" constant="70" id="0sI-h0-ffx"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="GKA-9Q-DaC" secondAttribute="trailing" id="2AR-Bm-PFJ"/>
+                            <constraint firstItem="wrD-B7-4MU" firstAttribute="width" secondItem="GKA-9Q-DaC" secondAttribute="width" id="6Lh-1U-YQT"/>
+                            <constraint firstItem="GKA-9Q-DaC" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" id="724-lU-A7C"/>
+                            <constraint firstItem="wrD-B7-4MU" firstAttribute="top" secondItem="GKA-9Q-DaC" secondAttribute="bottom" constant="12" id="7tX-BQ-xi2"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="xet-va-S7c" secondAttribute="bottom" constant="272" id="8Z7-M0-s8g"/>
+                            <constraint firstItem="wrD-B7-4MU" firstAttribute="centerX" secondItem="GKA-9Q-DaC" secondAttribute="centerX" id="Asd-va-X31"/>
+                            <constraint firstItem="m02-ve-aoQ" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" constant="-70" id="TNF-1M-JSR"/>
+                            <constraint firstItem="m02-ve-aoQ" firstAttribute="top" secondItem="xet-va-S7c" secondAttribute="top" id="rmi-Jh-79f"/>
+                            <constraint firstItem="xet-va-S7c" firstAttribute="top" secondItem="wrD-B7-4MU" secondAttribute="bottom" constant="5" id="vRR-MV-B0O"/>
+                            <constraint firstItem="GKA-9Q-DaC" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="12" id="wFU-S7-AKm"/>
+                        </constraints>
                     </view>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                     <connections>
-                        <outlet property="artwork" destination="gjq-FA-WjO" id="nuP-fA-Wd1"/>
-                        <outlet property="toolbar" destination="MqS-45-YrO" id="wE7-PR-FQw"/>
+                        <outlet property="artwork" destination="zks-He-mk2" id="fI1-sD-CxU"/>
+                        <outlet property="textField" destination="GKA-9Q-DaC" id="rFN-si-Bpx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="35.5" y="36.5"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

@@ -25,25 +25,10 @@
                                (id)[UIColor colorWithRed:1 green:0.361 blue:0.188 alpha:1].CGColor]];
     [[[self view] layer] insertSublayer:gradientLayer atIndex:0];
     
-    // iOS 10 fix
-    [_toolbar setBackgroundImage:[UIImage new]
-              forToolbarPosition:UIBarPositionAny
-                      barMetrics:UIBarMetricsDefault];
-    [_toolbar setShadowImage:[UIImage new]
-          forToolbarPosition:UIBarPositionAny];
-    
-    [_toolbar setClipsToBounds:YES];
+    _textField.layer.cornerRadius = 5;
+    _textField.clipsToBounds = true;
     
     [self share:nil];
-}
-
-- (void) viewDidAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    
-    CGRect f = _toolbar.frame;
-    f.size.width = [UIScreen mainScreen].bounds.size.width;
-    [_toolbar setFrame:f];
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle{
@@ -96,6 +81,9 @@
                                   otherButtonTitles:nil];
         [alertView show];
     }
+}
+
+- (IBAction)reset:(id)sender {
 }
 
 @end
