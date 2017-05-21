@@ -53,6 +53,7 @@
 		6410FF2618F9BA4700DACFBE /* Music_TweetTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Music_TweetTests.m; sourceTree = "<group>"; };
 		6410FF3018F9BA6800DACFBE /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		6410FF3218F9BAD000DACFBE /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		641226551ED2550700ACE1AA /* Secrets.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Secrets.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +118,7 @@
 				6410FF0D18F9BA4600DACFBE /* Main.storyboard */,
 				6410FF1018F9BA4600DACFBE /* ViewController.h */,
 				6410FF1118F9BA4700DACFBE /* ViewController.m */,
+				641226551ED2550700ACE1AA /* Secrets.h */,
 				6410FF1318F9BA4700DACFBE /* Images.xcassets */,
 				6410FF0218F9BA4600DACFBE /* Supporting Files */,
 			);

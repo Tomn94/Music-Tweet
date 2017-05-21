@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <MediaPlayer/MediaPlayer.h>
+#import "Secrets.h"
 
 @interface ViewController : UIViewController {
     BOOL previousArtworkState;

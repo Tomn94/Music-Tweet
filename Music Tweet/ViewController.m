@@ -41,15 +41,15 @@
     return UIStatusBarStyleLightContent;
 }
 
+/**
+   Share text & eventually artwork on Twitter
+ */
 - (IBAction)share:(id)sender
 {
     if (!_tweetBtn.isEnabled)
         return;
     
-//    MPMediaItemArtwork *illustration = [currentItem valueForProperty:MPMediaItemPropertyArtwork];
-//    if (illustration && _artwork.isOn)
-//        [tweetSheet addImage:[illustration imageWithSize:CGSizeMake(320, 320)]];
-        
+    
 }
 
 /**
