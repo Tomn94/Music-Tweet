@@ -35,6 +35,9 @@
                                 <subviews>
                                     <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zks-He-mk2">
                                         <rect key="frame" x="1" y="0.0" width="51" height="31"/>
+                                        <connections>
+                                            <action selector="artworkActivationChanged" destination="vXZ-lx-hvc" eventType="valueChanged" id="zJA-SU-tgB"/>
+                                        </connections>
                                     </switch>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Artwork" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E1H-wa-zTG">
                                         <rect key="frame" x="70" y="1" width="198" height="30"/>

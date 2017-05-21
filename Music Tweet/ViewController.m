@@ -8,8 +8,7 @@
 
 #import "ViewController.h"
 
-@interface ViewController ()
-@end
+#define DEFAULTS_ARTWORK_KEY @"publishArtwork"
 
 @implementation ViewController
 
@@ -30,7 +29,10 @@
     _artworkView.layer.cornerRadius = 5;
     _artworkView.clipsToBounds = YES;
     
-    previousArtworkState = YES;
+    [[NSUserDefaults standardUserDefaults] registerDefaults:@{DEFAULTS_ARTWORK_KEY: @YES}];
+    
+    previousArtworkState = [[NSUserDefaults standardUserDefaults] boolForKey:DEFAULTS_ARTWORK_KEY];
+    _artwork.on = previousArtworkState;
     
     [self reset:nil];
 }
@@ -117,6 +119,10 @@
             }
         });
     }];
+}
+
+- (IBAction) artworkActivationChanged {
+    [[NSUserDefaults standardUserDefaults] setBool:_artwork.isOn forKey:DEFAULTS_ARTWORK_KEY];
 }
 
 @end
