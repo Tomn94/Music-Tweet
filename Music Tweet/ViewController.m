@@ -28,7 +28,7 @@
     _textField.layer.cornerRadius = 5;
     _textField.clipsToBounds = true;
     
-    [self share:nil];
+    [self reset:nil];
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle{
@@ -83,7 +83,28 @@
     }
 }
 
+/**
+ Displays the current track info on the view controller
+ */
 - (IBAction)reset:(id)sender {
+    
+    MPMediaItem *currentItem = [[MPMusicPlayerController systemMusicPlayer] nowPlayingItem];
+    if (currentItem)
+    {
+        NSString *s1 = @"#NP ▶️ ";
+        NSString *s2 = [s1 stringByAppendingString:[currentItem valueForProperty:MPMediaItemPropertyTitle]];
+        NSString *s3 = [s2 stringByAppendingString:@" — "];
+        NSString *s4 = [s3 stringByAppendingString:[currentItem valueForProperty:MPMediaItemPropertyArtist]];
+        NSString *sLast = [s4 stringByAppendingString:@"\n"];
+        
+        _textField.text = sLast;
+        _tweetBtn.userInteractionEnabled = YES;
+    }
+    else
+    {
+        _textField.text = @"No song is currently playing or paused…";
+        _tweetBtn.userInteractionEnabled = NO;
+    }
 }
 
 @end

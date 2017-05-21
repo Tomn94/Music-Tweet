@@ -7,12 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <Social/Social.h>
 #import <MediaPlayer/MediaPlayer.h>
 
 @interface ViewController : UIViewController
 
 @property (weak, nonatomic) IBOutlet UITextView *textField;
 @property (weak, nonatomic) IBOutlet UISwitch   *artwork;
+@property (weak, nonatomic) IBOutlet UIButton   *tweetBtn;
 
 @end

@@ -7,9 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6410FEFC18F9BA4600DACFBE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6410FEFB18F9BA4600DACFBE /* Foundation.framework */; };
-		6410FEFE18F9BA4600DACFBE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6410FEFD18F9BA4600DACFBE /* CoreGraphics.framework */; };
-		6410FF0018F9BA4600DACFBE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6410FEFF18F9BA4600DACFBE /* UIKit.framework */; };
 		6410FF0618F9BA4600DACFBE /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6410FF0418F9BA4600DACFBE /* InfoPlist.strings */; };
 		6410FF0818F9BA4600DACFBE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6410FF0718F9BA4600DACFBE /* main.m */; };
 		6410FF0C18F9BA4600DACFBE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6410FF0B18F9BA4600DACFBE /* AppDelegate.m */; };
@@ -21,7 +18,6 @@
 		6410FF1D18F9BA4700DACFBE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6410FEFF18F9BA4600DACFBE /* UIKit.framework */; };
 		6410FF2518F9BA4700DACFBE /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6410FF2318F9BA4700DACFBE /* InfoPlist.strings */; };
 		6410FF2718F9BA4700DACFBE /* Music_TweetTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6410FF2618F9BA4700DACFBE /* Music_TweetTests.m */; };
-		6410FF3118F9BA6800DACFBE /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6410FF3018F9BA6800DACFBE /* Social.framework */; };
 		6410FF3318F9BAD000DACFBE /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6410FF3218F9BAD000DACFBE /* MediaPlayer.framework */; };
 /* End PBXBuildFile section */
 
@@ -65,10 +61,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				6410FF3318F9BAD000DACFBE /* MediaPlayer.framework in Frameworks */,
-				6410FF3118F9BA6800DACFBE /* Social.framework in Frameworks */,
-				6410FEFE18F9BA4600DACFBE /* CoreGraphics.framework in Frameworks */,
-				6410FF0018F9BA4600DACFBE /* UIKit.framework in Frameworks */,
-				6410FEFC18F9BA4600DACFBE /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

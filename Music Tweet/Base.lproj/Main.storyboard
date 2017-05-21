@@ -93,6 +93,7 @@
                     <connections>
                         <outlet property="artwork" destination="zks-He-mk2" id="fI1-sD-CxU"/>
                         <outlet property="textField" destination="GKA-9Q-DaC" id="rFN-si-Bpx"/>
+                        <outlet property="tweetBtn" destination="xet-va-S7c" id="2ig-0B-lPY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
