@@ -16,7 +16,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
     
     CAGradientLayer *gradientLayer = [[CAGradientLayer alloc] init];
     gradientLayer.frame = CGRectMake(0, 0, [[self view] frame].size.width, [[self view] frame].size.height);
@@ -26,7 +25,9 @@
     [[[self view] layer] insertSublayer:gradientLayer atIndex:0];
     
     _textField.layer.cornerRadius = 5;
-    _textField.clipsToBounds = true;
+    _textField.clipsToBounds = YES;
+    
+    previousArtworkState = YES;
     
     [self reset:nil];
 }
@@ -87,6 +88,16 @@
                         
                         _textField.text = sLast;
                         _tweetBtn.enabled = YES;
+                        
+                        MPMediaItemArtwork *illustration = [currentItem valueForProperty:MPMediaItemPropertyArtwork];
+                        if (_artwork.isEnabled)
+                            previousArtworkState = _artwork.isOn;
+                        _artwork.enabled = illustration;
+                        if (!illustration) {
+                            _artwork.on = NO;
+                        } else {
+                            _artwork.on = previousArtworkState;
+                        }
                     }
                     else
                         _textField.text = @"No song is currently playing or paused…";
