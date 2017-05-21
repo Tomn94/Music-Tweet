@@ -69,6 +69,9 @@
                                 <state key="normal" title="Tweet">
                                     <color key="titleColor" red="1" green="0.92282443576388884" blue="0.65049913194444442" alpha="0.6953660102739726" colorSpace="calibratedRGB"/>
                                 </state>
+                                <state key="disabled">
+                                    <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
                                 <connections>
                                     <action selector="share:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="rqe-vh-Nuc"/>
                                 </connections>

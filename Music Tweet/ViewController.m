@@ -28,6 +28,8 @@
     _textField.layer.cornerRadius = 5;
     _textField.clipsToBounds = true;
     
+    [_tweetBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateDisabled];
+    
     [self reset:nil];
 }
 
@@ -37,7 +39,7 @@
 
 - (IBAction)share:(id)sender
 {
-    if (!_tweetBtn.isUserInteractionEnabled)
+    if (!_tweetBtn.isEnabled)
         return;
     
 //    MPMediaItemArtwork *illustration = [currentItem valueForProperty:MPMediaItemPropertyArtwork];
@@ -53,46 +55,51 @@
     
     [MPMediaLibrary requestAuthorization:^(MPMediaLibraryAuthorizationStatus status) {
         
-        _tweetBtn.userInteractionEnabled = NO;
         NSString *errorMessage = @"Error: Unable to know why song is currently playing";
         
-        switch (status)
-        {
-            case MPMediaLibraryAuthorizationStatusNotDetermined:
-                _textField.text = [errorMessage stringByAppendingString:@" because of an unknown reason"];
-                break;
-                
-            case MPMediaLibraryAuthorizationStatusDenied:
-                _textField.text = [errorMessage stringByAppendingString:@" unless you allow the app to access your Media Library"];
-                break;
-                
-            case MPMediaLibraryAuthorizationStatusRestricted:
-                _textField.text = [errorMessage stringByAppendingString:@" because of corporate or parental settings disabling access to your Media Library"];
-                break;
-                
-            case MPMediaLibraryAuthorizationStatusAuthorized: {
-                
-                MPMediaItem *currentItem = [[MPMusicPlayerController systemMusicPlayer] nowPlayingItem];
-                if (currentItem)
-                {
-                    NSString *s1 = @"#NP ▶️ ";
-                    NSString *s2 = [s1 stringByAppendingString:[currentItem valueForProperty:MPMediaItemPropertyTitle]];
-                    NSString *s3 = [s2 stringByAppendingString:@" — "];
-                    NSString *s4 = [s3 stringByAppendingString:[currentItem valueForProperty:MPMediaItemPropertyArtist]];
-                    NSString *sLast = [s4 stringByAppendingString:@"\n"];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            _tweetBtn.enabled = NO;
+            _textField.text = @"";
+        
+            switch (status)
+            {
+                case MPMediaLibraryAuthorizationStatusNotDetermined:
+                    _textField.text = [errorMessage stringByAppendingString:@" because of an unknown reason"];
+                    break;
                     
-                    _textField.text = sLast;
-                    _tweetBtn.userInteractionEnabled = YES;
+                case MPMediaLibraryAuthorizationStatusDenied:
+                    _textField.text = [errorMessage stringByAppendingString:@" unless you allow the app to access your Media Library"];
+                    break;
+                    
+                case MPMediaLibraryAuthorizationStatusRestricted:
+                    _textField.text = [errorMessage stringByAppendingString:@" because of corporate or parental settings disabling access to your Media Library"];
+                    break;
+                    
+                case MPMediaLibraryAuthorizationStatusAuthorized: {
+                    
+                    MPMediaItem *currentItem = [[MPMusicPlayerController systemMusicPlayer] nowPlayingItem];
+                    if (currentItem)
+                    {
+                        NSString *s1 = @"#NP ▶️ ";
+                        NSString *s2 = [s1 stringByAppendingString:[currentItem valueForProperty:MPMediaItemPropertyTitle]];
+                        NSString *s3 = [s2 stringByAppendingString:@" — "];
+                        NSString *s4 = [s3 stringByAppendingString:[currentItem valueForProperty:MPMediaItemPropertyArtist]];
+                        NSString *sLast = [s4 stringByAppendingString:@"\n"];
+                        
+                        _textField.text = sLast;
+                        _tweetBtn.enabled = YES;
+                    }
+                    else
+                        _textField.text = @"No song is currently playing or paused…";
+                    
+                    break;
                 }
-                else
-                    _textField.text = @"No song is currently playing or paused…";
-                
-                break;
+                    
+                default:
+                    break;
             }
-                
-            default:
-                break;
-        }
+        });
     }];
 }
 
