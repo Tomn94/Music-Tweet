@@ -9,6 +9,7 @@
 #import "ViewController.h"
 
 #define DEFAULTS_ARTWORK_KEY @"publishArtwork"
+#define DEFAULTS_TOKEN_KEY   @"twitterUserToken"
 
 @implementation ViewController
 
@@ -29,10 +30,13 @@
     _artworkView.layer.cornerRadius = 5;
     _artworkView.clipsToBounds = YES;
     
-    [[NSUserDefaults standardUserDefaults] registerDefaults:@{DEFAULTS_ARTWORK_KEY: @YES}];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults registerDefaults:@{ DEFAULTS_ARTWORK_KEY: @YES }];
     
-    previousArtworkState = [[NSUserDefaults standardUserDefaults] boolForKey:DEFAULTS_ARTWORK_KEY];
+    previousArtworkState = [defaults boolForKey:DEFAULTS_ARTWORK_KEY];
     _artwork.on = previousArtworkState;
+    
+    twitterUserToken = [defaults objectForKey:DEFAULTS_TOKEN_KEY]; // FIXME: Use Keychain
     
     [self reset:nil];
 }
@@ -49,7 +53,10 @@
     if (!_tweetBtn.isEnabled)
         return;
     
-    
+    if (twitterUserToken == nil || [twitterUserToken isEqualToString:@""])
+        [self connect];
+    else
+        [self tweet];
 }
 
 /**
@@ -123,6 +130,53 @@
 
 - (IBAction) artworkActivationChanged {
     [[NSUserDefaults standardUserDefaults] setBool:_artwork.isOn forKey:DEFAULTS_ARTWORK_KEY];
+}
+
+
+#pragma mark - Twitter
+
+- (void) connect
+{
+    NSURLSessionConfiguration *defaultConfigObject = [NSURLSessionConfiguration defaultSessionConfiguration];
+    NSURLSession              *defaultSession      = [NSURLSession sessionWithConfiguration:defaultConfigObject
+                                                                                   delegate:nil
+                                                                              delegateQueue:[NSOperationQueue mainQueue]];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://api.twitter.com/oauth/request_token"]];
+    
+    NSString *callback = @"musictweet://";
+    NSString *nonce = [ViewController generateNonce];
+    NSTimeInterval timestamp = [[NSDate date] timeIntervalSince1970];
+    NSString *signature = @"";
+    
+    [request setHTTPMethod:@"POST"];
+    [request setValue:[NSString stringWithFormat:@"OAuth oauth_callback=\"%@\", oauth_consumer_key=\"%@\", oauth_nonce=\"%@\", oauth_signature=\"%@\", oauth_signature_method=\"HMAC-SHA1\", oauth_timestamp=\"%ld\", oauth_version=\"1.0\"", callback, TWITTER_APP_CONSUMER_KEY, nonce, signature, (long)timestamp]
+   forHTTPHeaderField:@"Authorization"];
+    
+    
+    NSURLSessionDataTask *task;
+}
+
+- (void) tweet
+{
+    
+}
+
++ (NSString *) generateNonce
+{
+    static NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    
+    NSMutableString *randomString = [NSMutableString stringWithCapacity:32];
+    
+    for (int i = 0; i < 32; i++)
+        [randomString appendFormat: @"%C", [letters characterAtIndex:arc4random_uniform((uint32_t)letters.length)]];
+    
+    return [randomString copy];
+}
+
++ (NSString *) generateSignature
+{
+    
+    return nil;
 }
 
 @end
