@@ -139,13 +139,22 @@
 
 - (void) connect
 {
+    [self sendRequest:@"https://api.twitter.com/oauth/request_token"
+               method:@"POST"
+                  get:nil
+                 post:@{ @"oauth_callback": [@"musictweet://" stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] }
+             useToken:NO
+     completion:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+         [ViewController isLoading:NO];
+     }];
 }
 
 - (void) sendRequest:(NSString *)url
               method:(NSString *)method
                  get:(NSDictionary *)getParameters
                 post:(NSDictionary *)postParameters
-             options:(NSUInteger)options
+            useToken:(BOOL)useToken
+          completion:(void (^)(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error))handler
 {
     NSURLSessionConfiguration *defaultConfigObject = [NSURLSessionConfiguration defaultSessionConfiguration];
     NSURLSession              *defaultSession      = [NSURLSession sessionWithConfiguration:defaultConfigObject
@@ -154,7 +163,6 @@
     
     NSString *nonce = [ViewController generateNonce];
     NSString *signMethod = @"HMAC-SHA1";
-    NSString *callback = @"musictweet://";
     NSString *timestamp = [NSString stringWithFormat:@"%.f", [[NSDate date] timeIntervalSince1970]];
     NSString *version = @"1.0";
     
@@ -166,10 +174,7 @@
         @"oauth_signature_method": [signMethod stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
         @"oauth_timestamp": [timestamp stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
         @"oauth_version": [version stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] }];
-    if (options == 1)
-        [parameters setObject:[callback stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]
-                       forKey:@"oauth_callback"];
-    else
+    if (useToken == 0)
         [parameters setObject:[twitterUserToken stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]
                        forKey:@"oauth_token"];
     
@@ -226,7 +231,10 @@
         [request setHTTPBody:[postBody dataUsingEncoding:NSUTF8StringEncoding]];
     }
     
-//    NSURLSessionDataTask *task;
+    NSURLSessionDataTask *task = [defaultSession dataTaskWithRequest:request
+                                                   completionHandler:handler];
+    [task resume];
+    [ViewController isLoading:YES];
 }
 
 - (void) tweet
@@ -262,6 +270,18 @@
     NSString *hash = [HMAC base64EncodedStringWithOptions:0];
     
     return hash;
+}
+
++ (void) isLoading:(BOOL)hasActiveRequest
+{
+    static NSInteger loadingCount = 0;
+    
+    if (hasActiveRequest)
+        ++loadingCount;
+    else
+        --loadingCount;
+    
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:loadingCount > 0];
 }
 
 @end
