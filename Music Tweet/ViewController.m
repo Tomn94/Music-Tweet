@@ -107,7 +107,7 @@
                         UIImage *illustration = [[currentItem valueForProperty:MPMediaItemPropertyArtwork] imageWithSize:CGSizeMake(50, 50)];
                         if (_artwork.isEnabled)
                             previousArtworkState = _artwork.isOn;
-                        _artwork.enabled = illustration;
+                        _artwork.enabled = illustration != nil;
                         if (!illustration) {
                             _artwork.on = NO;
                         } else {
