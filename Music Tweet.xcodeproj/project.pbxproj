@@ -19,6 +19,7 @@
 		6410FF2518F9BA4700DACFBE /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6410FF2318F9BA4700DACFBE /* InfoPlist.strings */; };
 		6410FF2718F9BA4700DACFBE /* Music_TweetTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6410FF2618F9BA4700DACFBE /* Music_TweetTests.m */; };
 		6410FF3318F9BAD000DACFBE /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6410FF3218F9BAD000DACFBE /* MediaPlayer.framework */; };
+		641226581ED4F4C800ACE1AA /* TDOAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = 641226571ED4F4C700ACE1AA /* TDOAuth.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +55,8 @@
 		6410FF3018F9BA6800DACFBE /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		6410FF3218F9BAD000DACFBE /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		641226551ED2550700ACE1AA /* Secrets.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Secrets.h; sourceTree = "<group>"; };
+		641226561ED4F4C700ACE1AA /* TDOAuth.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDOAuth.h; sourceTree = "<group>"; };
+		641226571ED4F4C700ACE1AA /* TDOAuth.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDOAuth.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,6 +122,8 @@
 				6410FF1018F9BA4600DACFBE /* ViewController.h */,
 				6410FF1118F9BA4700DACFBE /* ViewController.m */,
 				641226551ED2550700ACE1AA /* Secrets.h */,
+				641226561ED4F4C700ACE1AA /* TDOAuth.h */,
+				641226571ED4F4C700ACE1AA /* TDOAuth.m */,
 				6410FF1318F9BA4700DACFBE /* Images.xcassets */,
 				6410FF0218F9BA4600DACFBE /* Supporting Files */,
 			);
@@ -255,6 +260,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6410FF1218F9BA4700DACFBE /* ViewController.m in Sources */,
+				641226581ED4F4C800ACE1AA /* TDOAuth.m in Sources */,
 				6410FF0C18F9BA4600DACFBE /* AppDelegate.m in Sources */,
 				6410FF0818F9BA4600DACFBE /* main.m in Sources */,
 			);

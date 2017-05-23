@@ -6,8 +6,9 @@
 //  Copyright (c) 2014 U969H3GXLU. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import <MediaPlayer/MediaPlayer.h>
+@import UIKit;
+@import MediaPlayer;
+#import "TDOAuth.h"
 #import "Secrets.h"
 
 @interface ViewController : UIViewController {
@@ -15,9 +16,6 @@
     
     NSString *twitterUserToken;
     NSString *twitterUserSecret;
-    
-    NSString *twitterSignInToken;
-    NSString *twitterSignInSecret;
 }
 
 @property (weak, nonatomic) IBOutlet UITextView  *textField;

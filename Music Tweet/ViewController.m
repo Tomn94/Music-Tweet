@@ -7,8 +7,6 @@
 //
 
 #import "ViewController.h"
-#import <CommonCrypto/CommonHMAC.h>
-#import <CommonCrypto/CommonDigest.h>
 
 #define DEFAULTS_ARTWORK_KEY @"publishArtwork"
 #define DEFAULTS_TOKEN_KEY   @"twitterUserToken"
@@ -56,7 +54,7 @@
         return;
     
     if (twitterUserToken == nil || [twitterUserToken isEqualToString:@""])
-        [self connect];
+        [self twitter_requestToken];
     else
         [self tweet];
 }
@@ -137,102 +135,67 @@
 
 #pragma mark - Twitter
 
-- (void) connect
+- (void) twitter_requestToken
 {
-    [self sendRequest:@"https://api.twitter.com/oauth/request_token"
-               method:@"POST"
-                  get:nil
-                 post:@{ @"oauth_callback": [@"musictweet://" stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] }
-             useToken:NO
-     completion:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-         [ViewController isLoading:NO];
-     }];
-}
-
-- (void) sendRequest:(NSString *)url
-              method:(NSString *)method
-                 get:(NSDictionary *)getParameters
-                post:(NSDictionary *)postParameters
-            useToken:(BOOL)useToken
-          completion:(void (^)(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error))handler
-{
+    NSURLRequest *request = [TDOAuth URLRequestForPath:@"/oauth/request_token"
+                                        POSTParameters:@{ @"oauth_callback" : @"musictweet://sign" }
+                                                  host:@"api.twitter.com"
+                                           consumerKey:TWITTER_APP_CONSUMER_KEY
+                                        consumerSecret:TWITTER_APP_CONSUMER_SECRET
+                                           accessToken:nil
+                                           tokenSecret:nil];
+    
+    /* Create & send network task */
     NSURLSessionConfiguration *defaultConfigObject = [NSURLSessionConfiguration defaultSessionConfiguration];
     NSURLSession              *defaultSession      = [NSURLSession sessionWithConfiguration:defaultConfigObject
                                                                                    delegate:nil
                                                                               delegateQueue:[NSOperationQueue mainQueue]];
     
-    NSString *nonce = [ViewController generateNonce];
-    NSString *signMethod = @"HMAC-SHA1";
-    NSString *timestamp = [NSString stringWithFormat:@"%.f", [[NSDate date] timeIntervalSince1970]];
-    NSString *version = @"1.0";
-    
-    NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithDictionary:getParameters];
-    [parameters addEntriesFromDictionary:postParameters];
-    [parameters addEntriesFromDictionary:
-     @{ @"oauth_consumer_key": [TWITTER_APP_CONSUMER_KEY stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
-        @"oauth_nonce": [nonce stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
-        @"oauth_signature_method": [signMethod stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
-        @"oauth_timestamp": [timestamp stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
-        @"oauth_version": [version stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] }];
-    if (useToken == 0)
-        [parameters setObject:[twitterUserToken stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]
-                       forKey:@"oauth_token"];
-    
-    NSMutableArray *parametersArray = [NSMutableArray array];
-    for (NSString *parameterKey in parameters) {
-        [parametersArray addObject:[parameterKey stringByAppendingFormat:@"=\"%@\"", parameters[parameterKey]]];
-    }
-    parametersArray = [[parametersArray sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] mutableCopy];
-    
-    NSString *parametersString = [parametersArray componentsJoinedByString:@"&"];
-    
-    NSString *base = [method stringByAppendingFormat:@"&%@&%@",
-                      [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
-                      [parametersString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-    
-    NSString *signature = [ViewController hmacSHA1for:base
-                                           withSecret:[[TWITTER_APP_CONSUMER_SECRET stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] stringByAppendingFormat:@"&%@",
-                                                       [twitterUserSecret stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
-    
-    [parameters setObject:signature forKey:@"oauth_signature"];
-    [parametersArray addObject:[NSString stringWithFormat:@"oauth_signature=\"%@\"", signature]];
-    
-    
-    NSString *URLWithGET = url;
-    if (getParameters != nil && [getParameters count] > 0)
-    {
-        NSMutableString *GETInURL = [NSMutableString string];
-        int i = 0;
-        for (NSString *getKey in getParameters)
-        {
-            if (i != 0)
-                [GETInURL appendString:@"&"];
-            [GETInURL appendFormat:@"%@=%@", getKey, getParameters[getKey]];
-            i++;
-        }
-        URLWithGET = [@"https://api.twitter.com/oauth/request_token?" stringByAppendingString:GETInURL];
-    }
-    
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:URLWithGET]];
-    [request setHTTPMethod:method];
-    [request setValue:[NSString stringWithFormat:@"OAuth %@", [parametersArray componentsJoinedByString:@", "]]
-                       forHTTPHeaderField:@"Authorization"];
-    
-    if (postParameters != nil && [postParameters count] > 0)
-    {
-        NSMutableString *postBody = [NSMutableString string];
-        int i = 0;
-        for (NSString *postKey in postParameters) {
-            if (i != 0)
-                [postBody appendString:@"&"];
-            [postBody appendFormat:@"%@=%@", postKey, postParameters[postKey]];
-            i++;
-        }
-        [request setHTTPBody:[postBody dataUsingEncoding:NSUTF8StringEncoding]];
-    }
-    
     NSURLSessionDataTask *task = [defaultSession dataTaskWithRequest:request
-                                                   completionHandler:handler];
+                                                   completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {;
+         [ViewController isLoading:NO];
+         
+         if (error == nil && data != nil)
+         {
+             NSString *raw = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+             NSString *token = nil;
+             NSString *secret = nil;
+             NSString *confirmation = nil;
+             NSArray *parameters = [raw componentsSeparatedByString:@"&"];
+             for (NSString *parameter in parameters) {
+                 NSArray *keyValue = [parameter componentsSeparatedByString:@"="];
+                 if ([keyValue count] == 2) {
+                     if ([keyValue[0] isEqualToString:@"oauth_token"])
+                         token = keyValue[1];
+                     else if ([keyValue[0] isEqualToString:@"oauth_token_secret"])
+                         secret = keyValue[1];
+                     else if ([keyValue[0] isEqualToString:@"oauth_callback_confirmed"])
+                         confirmation = keyValue[1];
+                 }
+             }
+             if (token != nil && secret != nil &&
+                 ([confirmation isEqualToString:@"1"] || [[confirmation lowercaseString] isEqualToString:@"true"])) {
+                 
+                 [self twitter_engageConnection:token];
+             }
+             else
+             {
+                 UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error"
+                                                                                message:raw//TODO: @"Unable to get a valid Sign In Token from Twitter"
+                                                                         preferredStyle:UIAlertControllerStyleAlert];
+                 [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil]];
+                 [self presentViewController:alert animated:YES completion:nil];
+             }
+         }
+         else
+         {
+             UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error"
+                                                                            message:@"Unable to get a Sign In Token from Twitter"
+                                                                     preferredStyle:UIAlertControllerStyleAlert];
+             [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil]];
+             [self presentViewController:alert animated:YES completion:nil];
+         }
+    }];
     [task resume];
     [ViewController isLoading:YES];
 }
@@ -240,36 +203,6 @@
 - (void) tweet
 {
     
-}
-
-+ (NSString *) generateNonce
-{
-    static NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    
-    NSMutableString *randomString = [NSMutableString stringWithCapacity:32];
-    
-    for (int i = 0; i < 32; i++)
-        [randomString appendFormat: @"%C", [letters characterAtIndex:arc4random_uniform((uint32_t)letters.length)]];
-    
-    return [randomString copy];
-}
-
-+ (NSString *) hmacSHA1for:(NSString *)data
-                withSecret:(NSString *)key
-{
-    const char *cKey  = [key cStringUsingEncoding:NSASCIIStringEncoding];
-    const char *cData = [data cStringUsingEncoding:NSASCIIStringEncoding];
-    
-    unsigned char cHMAC[CC_SHA1_DIGEST_LENGTH];
-    
-    CCHmac(kCCHmacAlgSHA1, cKey, strlen(cKey), cData, strlen(cData), cHMAC);
-    
-    NSData *HMAC = [[NSData alloc] initWithBytes:cHMAC
-                                          length:sizeof(cHMAC)];
-    
-    NSString *hash = [HMAC base64EncodedStringWithOptions:0];
-    
-    return hash;
 }
 
 + (void) isLoading:(BOOL)hasActiveRequest
