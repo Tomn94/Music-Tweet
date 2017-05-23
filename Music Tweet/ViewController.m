@@ -7,6 +7,8 @@
 //
 
 #import "ViewController.h"
+#import <CommonCrypto/CommonHMAC.h>
+#import <CommonCrypto/CommonDigest.h>
 
 #define DEFAULTS_ARTWORK_KEY @"publishArtwork"
 #define DEFAULTS_TOKEN_KEY   @"twitterUserToken"
@@ -137,23 +139,94 @@
 
 - (void) connect
 {
+}
+
+- (void) sendRequest:(NSString *)url
+              method:(NSString *)method
+                 get:(NSDictionary *)getParameters
+                post:(NSDictionary *)postParameters
+             options:(NSUInteger)options
+{
     NSURLSessionConfiguration *defaultConfigObject = [NSURLSessionConfiguration defaultSessionConfiguration];
     NSURLSession              *defaultSession      = [NSURLSession sessionWithConfiguration:defaultConfigObject
                                                                                    delegate:nil
                                                                               delegateQueue:[NSOperationQueue mainQueue]];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://api.twitter.com/oauth/request_token"]];
     
-    NSString *callback = @"musictweet://";
     NSString *nonce = [ViewController generateNonce];
-    NSTimeInterval timestamp = [[NSDate date] timeIntervalSince1970];
-    NSString *signature = @"";
+    NSString *signMethod = @"HMAC-SHA1";
+    NSString *callback = @"musictweet://";
+    NSString *timestamp = [NSString stringWithFormat:@"%.f", [[NSDate date] timeIntervalSince1970]];
+    NSString *version = @"1.0";
     
-    [request setHTTPMethod:@"POST"];
-    [request setValue:[NSString stringWithFormat:@"OAuth oauth_callback=\"%@\", oauth_consumer_key=\"%@\", oauth_nonce=\"%@\", oauth_signature=\"%@\", oauth_signature_method=\"HMAC-SHA1\", oauth_timestamp=\"%ld\", oauth_version=\"1.0\"", callback, TWITTER_APP_CONSUMER_KEY, nonce, signature, (long)timestamp]
-   forHTTPHeaderField:@"Authorization"];
+    NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithDictionary:getParameters];
+    [parameters addEntriesFromDictionary:postParameters];
+    [parameters addEntriesFromDictionary:
+     @{ @"oauth_consumer_key": [TWITTER_APP_CONSUMER_KEY stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
+        @"oauth_nonce": [nonce stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
+        @"oauth_signature_method": [signMethod stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
+        @"oauth_timestamp": [timestamp stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
+        @"oauth_version": [version stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] }];
+    if (options == 1)
+        [parameters setObject:[callback stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]
+                       forKey:@"oauth_callback"];
+    else
+        [parameters setObject:[twitterUserToken stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]
+                       forKey:@"oauth_token"];
+    
+    NSMutableArray *parametersArray = [NSMutableArray array];
+    for (NSString *parameterKey in parameters) {
+        [parametersArray addObject:[parameterKey stringByAppendingFormat:@"=\"%@\"", parameters[parameterKey]]];
+    }
+    parametersArray = [[parametersArray sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] mutableCopy];
+    
+    NSString *parametersString = [parametersArray componentsJoinedByString:@"&"];
+    
+    NSString *base = [method stringByAppendingFormat:@"&%@&%@",
+                      [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
+                      [parametersString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    
+    NSString *signature = [ViewController hmacSHA1for:base
+                                           withSecret:[[TWITTER_APP_CONSUMER_SECRET stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] stringByAppendingFormat:@"&%@",
+                                                       [twitterUserSecret stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+    
+    [parameters setObject:signature forKey:@"oauth_signature"];
+    [parametersArray addObject:[NSString stringWithFormat:@"oauth_signature=\"%@\"", signature]];
     
     
-    NSURLSessionDataTask *task;
+    NSString *URLWithGET = url;
+    if (getParameters != nil && [getParameters count] > 0)
+    {
+        NSMutableString *GETInURL = [NSMutableString string];
+        int i = 0;
+        for (NSString *getKey in getParameters)
+        {
+            if (i != 0)
+                [GETInURL appendString:@"&"];
+            [GETInURL appendFormat:@"%@=%@", getKey, getParameters[getKey]];
+            i++;
+        }
+        URLWithGET = [@"https://api.twitter.com/oauth/request_token?" stringByAppendingString:GETInURL];
+    }
+    
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:URLWithGET]];
+    [request setHTTPMethod:method];
+    [request setValue:[NSString stringWithFormat:@"OAuth %@", [parametersArray componentsJoinedByString:@", "]]
+                       forHTTPHeaderField:@"Authorization"];
+    
+    if (postParameters != nil && [postParameters count] > 0)
+    {
+        NSMutableString *postBody = [NSMutableString string];
+        int i = 0;
+        for (NSString *postKey in postParameters) {
+            if (i != 0)
+                [postBody appendString:@"&"];
+            [postBody appendFormat:@"%@=%@", postKey, postParameters[postKey]];
+            i++;
+        }
+        [request setHTTPBody:[postBody dataUsingEncoding:NSUTF8StringEncoding]];
+    }
+    
+//    NSURLSessionDataTask *task;
 }
 
 - (void) tweet
@@ -173,10 +246,22 @@
     return [randomString copy];
 }
 
-+ (NSString *) generateSignature
++ (NSString *) hmacSHA1for:(NSString *)data
+                withSecret:(NSString *)key
 {
+    const char *cKey  = [key cStringUsingEncoding:NSASCIIStringEncoding];
+    const char *cData = [data cStringUsingEncoding:NSASCIIStringEncoding];
     
-    return nil;
+    unsigned char cHMAC[CC_SHA1_DIGEST_LENGTH];
+    
+    CCHmac(kCCHmacAlgSHA1, cKey, strlen(cKey), cData, strlen(cData), cHMAC);
+    
+    NSData *HMAC = [[NSData alloc] initWithBytes:cHMAC
+                                          length:sizeof(cHMAC)];
+    
+    NSString *hash = [HMAC base64EncodedStringWithOptions:0];
+    
+    return hash;
 }
 
 @end

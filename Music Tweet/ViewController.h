@@ -12,7 +12,9 @@
 
 @interface ViewController : UIViewController {
     BOOL previousArtworkState;
+    
     NSString *twitterUserToken;
+    NSString *twitterUserSecret;
 }
 
 @property (weak, nonatomic) IBOutlet UITextView  *textField;
