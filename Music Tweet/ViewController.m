@@ -200,6 +200,20 @@
     [ViewController isLoading:YES];
 }
 
+- (void) twitter_engageConnection:(NSString *)token
+{
+    NSURL *url = [NSURL URLWithString:[@"https://api.twitter.com/oauth/authenticate?oauth_token=" stringByAppendingString:[token stringByAddingPercentEncodingWithAllowedCharacters:NSCharacterSet.URLHostAllowedCharacterSet]]];
+    
+    if ([SFSafariViewController class])
+    {
+        SFSafariViewController *safari = [[SFSafariViewController alloc] initWithURL:url
+                                                             entersReaderIfAvailable:NO];
+        [self presentViewController:safari animated:YES completion:nil];
+    }
+    else
+        [[UIApplication sharedApplication] openURL:url];
+}
+
 - (void) tweet
 {
     

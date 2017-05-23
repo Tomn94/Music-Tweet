@@ -8,6 +8,7 @@
 
 @import UIKit;
 @import MediaPlayer;
+@import SafariServices;
 #import "TDOAuth.h"
 #import "Secrets.h"
 
