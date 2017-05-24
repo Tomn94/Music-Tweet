@@ -138,6 +138,17 @@
     [ConnectivityHandler.sharedHandler sendInfo];
 }
 
+- (BOOL)             textField:(UITextField *)textField
+ shouldChangeCharactersInRange:(NSRange)range
+             replacementString:(NSString *)string
+{
+    NSString *proposedNewString = [textField.text stringByReplacingCharactersInRange:range withString:string];
+    [MusicHandler.sharedHandler setTweetText:proposedNewString];
+    [ConnectivityHandler.sharedHandler sendInfo];
+    
+    return YES;
+}
+
 - (IBAction) artworkActivationChanged
 {
     [[NSUserDefaults standardUserDefaults] setBool:_artwork.isOn

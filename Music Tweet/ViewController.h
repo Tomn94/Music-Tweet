@@ -12,7 +12,7 @@
 #import "TwitterHandler.h"
 #import "ConnectivityHandler.h"
 
-@interface ViewController : UIViewController
+@interface ViewController : UIViewController <UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextView  *textField;
 @property (weak, nonatomic) IBOutlet UISwitch    *artwork;
