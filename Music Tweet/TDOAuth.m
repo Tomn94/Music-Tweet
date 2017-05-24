@@ -246,11 +246,11 @@ static NSString* timestamp() {
                        consumerSecret:consumerSecret
                           accessToken:accessToken
                           tokenSecret:tokenSecret
-                               scheme:@"https"
-                        requestMethod:@"GET"
-                         dataEncoding:TDOAuthContentTypeUrlEncodedForm
-                         headerValues:nil
-                      signatureMethod:TDOAuthSignatureMethodHmacSha1
+                               scheme:scheme
+                        requestMethod:method
+                         dataEncoding:dataEncoding
+                         headerValues:headerValues
+                      signatureMethod:signatureMethod
                           rawPOSTData:nil];
 }
 

@@ -447,7 +447,7 @@
 
 - (void) tweetTextWith:(NSArray*)mediaIDs
 {
-    NSMutableDictionary *parameters = @{ @"status": @"" }.mutableCopy;
+    NSMutableDictionary *parameters = @{ @"status": _textField.text }.mutableCopy;
     
     if (mediaIDs != nil)
         [parameters setObject:[mediaIDs componentsJoinedByString:@","]
