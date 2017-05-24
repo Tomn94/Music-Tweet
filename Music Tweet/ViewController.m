@@ -27,8 +27,7 @@
     _artworkView.layer.cornerRadius = 5;
     _artworkView.clipsToBounds = YES;
     
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    previousArtworkState = [defaults boolForKey:DEFAULTS_ARTWORK_KEY];
+    previousArtworkState = [[NSUserDefaults standardUserDefaults] boolForKey:DEFAULTS_ARTWORK_KEY];
     _artwork.on = previousArtworkState;
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(artworkSettingsChanged:)
@@ -136,6 +135,8 @@
             }
         });
     }];
+    
+    [ConnectivityHandler.sharedHandler sendInfos];
 }
 
 - (IBAction) artworkActivationChanged

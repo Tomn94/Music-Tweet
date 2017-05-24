@@ -39,6 +39,8 @@
     return session.paired && session.watchAppInstalled && session.reachable;
 }
 
+#pragma mark - Required by delegate
+
 - (void)               session:(WCSession *)session
 activationDidCompleteWithState:(WCSessionActivationState)activationState
                          error:(NSError *)error
@@ -55,6 +57,8 @@ activationDidCompleteWithState:(WCSessionActivationState)activationState
 {
     
 }
+
+#pragma mark - Reception
 
 - (void)   session:(WCSession *)session
  didReceiveMessage:(NSDictionary<NSString *,id> *)message
@@ -85,7 +89,19 @@ activationDidCompleteWithState:(WCSessionActivationState)activationState
     }
 }
 
+#pragma mark - Dispatch
+
+- (void) sendInfos
+{
+    
+}
+
 - (void) artworkActivationChanged:(BOOL)activated
+{
+    
+}
+
+- (void) sendAlert
 {
     
 }

@@ -18,6 +18,9 @@
 
 + (ConnectivityHandler *) sharedHandler;
 - (void) startSession;
+
+- (void) sendInfos;
 - (void) artworkActivationChanged:(BOOL)activated;
+- (void) sendAlert;
 
 @end
