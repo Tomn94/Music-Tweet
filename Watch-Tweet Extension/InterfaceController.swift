@@ -138,12 +138,21 @@ extension InterfaceController: WCSessionDelegate {
             }
             
         }
+        
+        if let success = message["tweeted"] as? Bool,
+           success == true {
+            WKInterfaceDevice.current().play(.success)
+        }
+        
         if let artworkMode = message["setArworkOn"] as? Bool {
             artworkSwitch.setOn(artworkMode)
         }
+        
         if let alert   = message["alert"] as? [String: String],
            let title   = alert["title"],
            let content = alert["message"] {
+            
+            WKInterfaceDevice.current().play(.failure)
             
             presentAlert(withTitle: title,
                          message: content,
