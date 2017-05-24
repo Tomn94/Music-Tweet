@@ -43,6 +43,10 @@
 	<true/>
 	<key>NSAppleMusicUsageDescription</key>
 	<string>Access needed to get which song is playing</string>
+	<key>NSUserActivityTypes</key>
+	<array>
+		<string>com.tomn.Music-Tweet.tweet</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>Main</string>
 	<key>UIMainStoryboardFile</key>

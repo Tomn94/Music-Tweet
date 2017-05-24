@@ -26,6 +26,8 @@ class InterfaceController: WKInterfaceController {
         session?.activate()
         
         reset(checkErrors: false)
+        
+        updateUserActivity("com.tomn.Music-Tweet.tweet", userInfo: nil, webpageURL: nil)
     }
     
     @IBAction func tweet() {

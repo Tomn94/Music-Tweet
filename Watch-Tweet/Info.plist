@@ -25,6 +25,10 @@
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
+	<key>NSUserActivityTypes</key>
+	<array>
+		<string>com.tomn.Music-Tweet.tweet</string>
+	</array>
 	<key>WKCompanionAppBundleIdentifier</key>
 	<string>com.tomn.Music-Tweet</string>
 	<key>WKWatchKitApp</key>

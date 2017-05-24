@@ -20,6 +20,10 @@
 	<string>2.0</string>
 	<key>CFBundleVersion</key>
 	<string>2.0</string>
+	<key>NSUserActivityTypes</key>
+	<array>
+		<string>com.tomn.Music-Tweet.tweet</string>
+	</array>
 	<key>NSExtension</key>
 	<dict>
 		<key>NSExtensionAttributes</key>
