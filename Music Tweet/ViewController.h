@@ -16,6 +16,7 @@
 #define SYSTEM_VERSION_GREATERTHAN_OR_EQUALTO(v) ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 
 @interface ViewController : UIViewController {
+    
     BOOL previousArtworkState;
     
     NSString *twitterUserToken;

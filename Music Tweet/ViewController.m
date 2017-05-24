@@ -18,12 +18,12 @@
 {
     [super viewDidLoad];
     
-    CAGradientLayer *gradientLayer = [[CAGradientLayer alloc] init];
-    gradientLayer.frame = CGRectMake(0, 0, [[self view] frame].size.width, [[self view] frame].size.height);
+    CAGradientLayer *gradientLayer = [CAGradientLayer new];
+    gradientLayer.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
     [gradientLayer setLocations:@[@0.f, @1.f]];
     [gradientLayer setColors:@[(id)[UIColor colorWithRed:1 green:0.176 blue:0.394 alpha:1].CGColor,
                                (id)[UIColor colorWithRed:1 green:0.361 blue:0.188 alpha:1].CGColor]];
-    [[[self view] layer] insertSublayer:gradientLayer atIndex:0];
+    [self.view.layer insertSublayer:gradientLayer atIndex:0];
     
     _textField.layer.cornerRadius = 5;
     _textField.clipsToBounds = YES;
@@ -135,7 +135,8 @@
 }
 
 - (IBAction) artworkActivationChanged {
-    [[NSUserDefaults standardUserDefaults] setBool:_artwork.isOn forKey:DEFAULTS_ARTWORK_KEY];
+    [[NSUserDefaults standardUserDefaults] setBool:_artwork.isOn
+                                            forKey:DEFAULTS_ARTWORK_KEY];
 }
 
 
