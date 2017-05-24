@@ -583,6 +583,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Music Tweet/Music Tweet-Prefix.pch";
 				INFOPLIST_FILE = "Music Tweet/Music Tweet-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.tomn.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -601,6 +602,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Music Tweet/Music Tweet-Prefix.pch";
 				INFOPLIST_FILE = "Music Tweet/Music Tweet-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.tomn.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -790,6 +792,7 @@
 				64D85ECC1ED5ACE200547615 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		64D85ECF1ED5ACE200547615 /* Build configuration list for PBXNativeTarget "Watch-Tweet" */ = {
 			isa = XCConfigurationList;
@@ -798,6 +801,7 @@
 				64D85ECA1ED5ACE200547615 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
