@@ -12,6 +12,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults registerDefaults:@{ DEFAULTS_ARTWORK_KEY: @YES }];
     [ConnectivityHandler.sharedHandler startSession];
     
     return YES;

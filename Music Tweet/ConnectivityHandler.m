@@ -71,7 +71,7 @@ activationDidCompleteWithState:(WCSessionActivationState)activationState
     {
         if ([message[@"get"] isEqualToString:@"info"])
         {
-            [ViewController generateTweetText];
+            [MusicHandler generateTweetText];
         }
     }
     else if (message[@"setArworkOn"] != nil)
@@ -83,6 +83,11 @@ activationDidCompleteWithState:(WCSessionActivationState)activationState
                                                             object:nil
                                                           userInfo:@{ @"on": @YES }];
     }
+}
+
+- (void) artworkActivationChanged:(BOOL)activated
+{
+    
 }
 
 @end

@@ -28,6 +28,8 @@
 		64D85EC41ED5ACE200547615 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 64D85EC31ED5ACE200547615 /* Assets.xcassets */; };
 		64D85EC81ED5ACE200547615 /* Watch-Tweet.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 64D85EAE1ED5ACE200547615 /* Watch-Tweet.app */; };
 		64D85ED41ED5C30400547615 /* ConnectivityHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 64D85ED31ED5C30400547615 /* ConnectivityHandler.m */; };
+		64D85ED71ED5CF1B00547615 /* TwitterHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 64D85ED61ED5CF1B00547615 /* TwitterHandler.m */; };
+		64D85EDA1ED5D0F900547615 /* MusicHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 64D85ED91ED5D0F900547615 /* MusicHandler.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -115,6 +117,10 @@
 		64D85EC51ED5ACE200547615 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		64D85ED21ED5C30400547615 /* ConnectivityHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectivityHandler.h; sourceTree = "<group>"; };
 		64D85ED31ED5C30400547615 /* ConnectivityHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectivityHandler.m; sourceTree = "<group>"; };
+		64D85ED51ED5CF1B00547615 /* TwitterHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TwitterHandler.h; sourceTree = "<group>"; };
+		64D85ED61ED5CF1B00547615 /* TwitterHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TwitterHandler.m; sourceTree = "<group>"; };
+		64D85ED81ED5D0F900547615 /* MusicHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MusicHandler.h; sourceTree = "<group>"; };
+		64D85ED91ED5D0F900547615 /* MusicHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MusicHandler.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -192,6 +198,10 @@
 				6410FF0D18F9BA4600DACFBE /* Main.storyboard */,
 				6410FF1018F9BA4600DACFBE /* ViewController.h */,
 				6410FF1118F9BA4700DACFBE /* ViewController.m */,
+				64D85ED81ED5D0F900547615 /* MusicHandler.h */,
+				64D85ED91ED5D0F900547615 /* MusicHandler.m */,
+				64D85ED51ED5CF1B00547615 /* TwitterHandler.h */,
+				64D85ED61ED5CF1B00547615 /* TwitterHandler.m */,
 				641226551ED2550700ACE1AA /* Secrets.h */,
 				641226561ED4F4C700ACE1AA /* TDOAuth.h */,
 				641226571ED4F4C700ACE1AA /* TDOAuth.m */,
@@ -418,7 +428,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				6410FF1218F9BA4700DACFBE /* ViewController.m in Sources */,
+				64D85EDA1ED5D0F900547615 /* MusicHandler.m in Sources */,
 				641226581ED4F4C800ACE1AA /* TDOAuth.m in Sources */,
+				64D85ED71ED5CF1B00547615 /* TwitterHandler.m in Sources */,
 				6410FF0C18F9BA4600DACFBE /* AppDelegate.m in Sources */,
 				64D85ED41ED5C30400547615 /* ConnectivityHandler.m in Sources */,
 				6410FF0818F9BA4600DACFBE /* main.m in Sources */,

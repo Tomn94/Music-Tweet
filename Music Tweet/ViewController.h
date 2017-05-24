@@ -8,30 +8,15 @@
 
 @import UIKit;
 @import MediaPlayer;
-@import AudioToolbox;
 @import SafariServices;
-#import "TDOAuth.h"
-#import "Secrets.h"
+#import "MusicHandler.h"
+#import "TwitterHandler.h"
+#import "ConnectivityHandler.h"
 
-#define SYSTEM_VERSION_GREATERTHAN_OR_EQUALTO(v) ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
-
-#define DEFAULTS_ARTWORK_KEY @"publishArtwork"
-#define DEFAULTS_TOKEN_KEY   @"twitterUserToken"
-#define DEFAULTS_SECRET_KEY  @"twitterUserSecret"
-
-@interface ViewController : UIViewController {
-    
+@interface ViewController : UIViewController
+{
     BOOL previousArtworkState;
-    
-    NSTimeInterval lastTweetTime;
-    
-    NSString *twitterUserToken;
-    NSString *twitterUserSecret;
-    
-    NSString *twitterSignInToken;
 }
-
-+ (NSString *) generateTweetText;
 
 @property (weak, nonatomic) IBOutlet UITextView  *textField;
 @property (weak, nonatomic) IBOutlet UISwitch    *artwork;

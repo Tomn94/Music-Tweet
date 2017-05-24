@@ -9,6 +9,7 @@
 @import UIKit;
 @import WatchConnectivity;
 #import "ViewController.h"
+#import "MusicHandler.h"
 
 @interface ConnectivityHandler : NSObject <WCSessionDelegate>
 {
@@ -17,5 +18,6 @@
 
 + (ConnectivityHandler *) sharedHandler;
 - (void) startSession;
+- (void) artworkActivationChanged:(BOOL)activated;
 
 @end
