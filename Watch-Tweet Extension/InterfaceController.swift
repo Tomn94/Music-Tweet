@@ -17,10 +17,6 @@ class InterfaceController: WKInterfaceController {
     @IBOutlet var artwork: WKInterfaceImage!
     
     var session: WCSession?
-
-    override func awake(withContext context: Any?) {
-        super.awake(withContext: context)
-    }
     
     override func willActivate() {
         super.willActivate()
@@ -28,6 +24,7 @@ class InterfaceController: WKInterfaceController {
         session = WCSession.default()
         session?.delegate = self
         session?.activate()
+        
         reset(checkErrors: false)
     }
     
@@ -71,13 +68,12 @@ class InterfaceController: WKInterfaceController {
                                 self.tweetBtn.setEnabled(!(text?.isEmpty ?? true))
                                 
         }) { error in
+            self.tweetBtn.setEnabled(false)
             if (checkErrors) {
                 self.presentAlert(withTitle: "Unable to get current track from iPhone",
                                   message: error.localizedDescription,
                                   preferredStyle: .alert,
-                                  actions: [WKAlertAction(title: "Cancel", style: .cancel) {
-                                        self.tweetBtn.setEnabled(false)
-                                    }])
+                                  actions: [WKAlertAction(title: "Cancel", style: .cancel) {}])
             }
         }
     }

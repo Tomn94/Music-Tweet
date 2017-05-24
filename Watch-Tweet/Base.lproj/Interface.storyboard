@@ -33,6 +33,7 @@
                             <edgeInsets key="margins" left="0.0" right="0.0" top="5" bottom="5"/>
                         </group>
                         <switch width="1" alignment="left" value="YES" title="Artwork" id="REy-mi-T2m">
+                            <color key="tintColor" red="1" green="0.066666666666666666" blue="0.30980392156862746" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="artworkActivationChanged:" destination="AgC-eL-Hgc" id="Hoo-Bo-Kda"/>
                             </connections>

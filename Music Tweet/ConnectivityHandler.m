@@ -73,7 +73,7 @@ activationDidCompleteWithState:(WCSessionActivationState)activationState
             NSString *token = TwitterHandler.sharedHandler.twitterUserToken;
             if (token == nil || [token isEqualToString:@""])
                 [self sendAlert:@{ @"title":   @"First time you tweet?",
-                                   @"message": @"Please tweet using the iPhone app to Sign In with Twitter.\nEverything will be in order next time!"}];
+                                   @"message": @"Please use the iPhone app to Sign In with Twitter.\nEverything will be in order next time!"}];
             else
                 [TwitterHandler.sharedHandler tweet];
         }
