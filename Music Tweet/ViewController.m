@@ -104,12 +104,14 @@
                     
                 case MPMediaLibraryAuthorizationStatusAuthorized: {
                     
+                    [MusicHandler.sharedHandler reset];
+                    
                     if (MusicHandler.hasItemPlaying)
                     {
-                        _textField.text = [MusicHandler generateTweetText];
+                        _textField.text = [MusicHandler.sharedHandler tweetText];
                         _tweetBtn.enabled = YES;
                         
-                        UIImage *illustration = [MusicHandler getCurrentArtwork:CGSizeMake(100, 100)];
+                        UIImage *illustration = [MusicHandler.sharedHandler getArtworkAt:CGSizeMake(100, 100)];
                         _artworkView.image = illustration;
                         if (illustration == nil)
                             [_artwork setOn:NO];

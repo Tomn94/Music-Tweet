@@ -227,7 +227,7 @@
 
 - (void) tweetArtwork
 {
-    UIImage *illustration = [MusicHandler getCurrentArtwork];
+    UIImage *illustration = [MusicHandler.sharedHandler getArtwork];
     if (illustration == nil)
     {
         [self tweetTextWith:nil];
@@ -305,7 +305,7 @@
 
 - (void) tweetTextWith:(NSArray*)mediaIDs
 {
-    NSString *text = [MusicHandler generateTweetText];
+    NSString *text = [MusicHandler.sharedHandler tweetText];
     if (text == nil)
         return;
     

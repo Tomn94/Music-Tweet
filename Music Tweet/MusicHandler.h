@@ -12,9 +12,16 @@
 
 @interface MusicHandler : NSObject
 
++ (MusicHandler *) sharedHandler;
 + (BOOL) hasItemPlaying;
 + (NSString *) generateTweetText;
-+ (UIImage *)  getCurrentArtwork;
-+ (UIImage *)  getCurrentArtwork:(CGSize)size;
++ (MPMediaItemArtwork *)  fetchCurrentArtwork;
+
+@property (strong, nonatomic) NSString *tweetText;
+@property (strong, nonatomic) MPMediaItemArtwork *artwork;
+
+- (UIImage *) getArtwork;
+- (UIImage *) getArtworkAt:(CGSize)size;
+- (void) reset;
 
 @end

@@ -111,11 +111,11 @@ activationDidCompleteWithState:(WCSessionActivationState)activationState
     NSMutableDictionary *info = @{ @"text": @"",
                                    @"artworkMode": @([[NSUserDefaults standardUserDefaults] boolForKey:DEFAULTS_ARTWORK_KEY]) }.mutableCopy;
     
-    NSString *text = [MusicHandler generateTweetText];
+    NSString *text = [MusicHandler.sharedHandler tweetText];
     if (text)
-        info[@"text"] = [MusicHandler generateTweetText];
+        info[@"text"] = [MusicHandler.sharedHandler tweetText];
     
-    UIImage *artwork = [MusicHandler getCurrentArtwork:CGSizeMake(100, 100)];
+    UIImage *artwork = [MusicHandler.sharedHandler getArtworkAt:CGSizeMake(100, 100)];
     if (artwork)
         info[@"artworkData"] = UIImageJPEGRepresentation(artwork, 0.8);
     

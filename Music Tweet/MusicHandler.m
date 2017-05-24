@@ -10,6 +10,22 @@
 
 @implementation MusicHandler
 
++ (MusicHandler *) sharedHandler {
+    static MusicHandler *instance = nil;
+    if (instance == nil) {
+        
+        static dispatch_once_t pred;        // Lock
+        dispatch_once(&pred, ^{             // This code is called at most once per app
+            instance = [[MusicHandler allocWithZone:NULL] init];
+        });
+        
+        instance->_tweetText = [MusicHandler generateTweetText];
+        instance->_artwork   = [MusicHandler fetchCurrentArtwork];
+        
+    }
+    return instance;
+}
+
 + (BOOL) hasItemPlaying
 {
     if (MPMediaLibrary.authorizationStatus != MPMediaLibraryAuthorizationStatusAuthorized)
@@ -21,8 +37,8 @@
 
 + (NSString *) generateTweetText
 {
-    if (!self.hasItemPlaying)
-        return nil;
+    if (![MusicHandler hasItemPlaying])
+        return @"";
     
     MPMediaItem *currentItem = [[MPMusicPlayerController systemMusicPlayer] nowPlayingItem];
     
@@ -35,19 +51,30 @@
     return sLast;
 }
 
-+ (UIImage *) getCurrentArtwork
++ (MPMediaItemArtwork *) fetchCurrentArtwork
 {
-    return [self getCurrentArtwork:ARTWORK_SIZE];
-}
-
-+ (UIImage *) getCurrentArtwork:(CGSize)size
-{
-    if (!self.hasItemPlaying)
+    if (![MusicHandler hasItemPlaying])
         return nil;
     
     MPMediaItem *currentItem = [[MPMusicPlayerController systemMusicPlayer] nowPlayingItem];
     
-    return [[currentItem valueForProperty:MPMediaItemPropertyArtwork] imageWithSize:size];
+    return [currentItem valueForProperty:MPMediaItemPropertyArtwork];
+}
+
+- (UIImage *) getArtwork
+{
+    return [self getArtworkAt:ARTWORK_SIZE];
+}
+
+- (UIImage *) getArtworkAt:(CGSize)size
+{
+    return [_artwork imageWithSize:size];
+}
+
+- (void) reset
+{
+    [self setTweetText:[MusicHandler generateTweetText]];
+    [self setArtwork:[MusicHandler fetchCurrentArtwork]];
 }
 
 @end
