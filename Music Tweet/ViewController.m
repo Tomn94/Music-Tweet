@@ -274,7 +274,6 @@
                                            accessToken:nil
                                            tokenSecret:nil];
     
-    /* Create & send network task */
     NSURLSessionConfiguration *defaultConfigObject = [NSURLSessionConfiguration defaultSessionConfiguration];
     NSURLSession              *defaultSession      = [NSURLSession sessionWithConfiguration:defaultConfigObject
                                                                                    delegate:nil
@@ -340,7 +339,79 @@
 
 - (void) tweet
 {
+    if (twitterUserToken == nil || twitterUserSecret == nil)
+    {
+        [self twitter_requestToken];
+        return;
+    }
     
+    
+}
+
+- (void) tweetTextWith:(NSArray*)mediaIDs
+{
+    NSMutableDictionary *parameters = @{ @"status": @"" }.mutableCopy;
+    
+    if (mediaIDs != nil)
+        [parameters setObject:[mediaIDs componentsJoinedByString:@","]
+                       forKey:@"media_ids"];
+    
+    NSURLRequest *request = [TDOAuth URLRequestForPath:@"/statuses/update"
+                                        POSTParameters:parameters
+                                                  host:@"api.twitter.com"
+                                           consumerKey:TWITTER_APP_CONSUMER_KEY
+                                        consumerSecret:TWITTER_APP_CONSUMER_SECRET
+                                           accessToken:twitterUserToken
+                                           tokenSecret:twitterUserSecret];
+    
+    NSURLSessionConfiguration *defaultConfigObject = [NSURLSessionConfiguration defaultSessionConfiguration];
+    NSURLSession              *defaultSession      = [NSURLSession sessionWithConfiguration:defaultConfigObject
+                                                                                   delegate:nil
+                                                                              delegateQueue:[NSOperationQueue mainQueue]];
+    
+    NSURLSessionDataTask *task = [defaultSession dataTaskWithRequest:request
+                                                   completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error)
+    {
+        [ViewController isLoading:NO];
+        
+        if (error == nil && data != nil)
+        {
+            NSInteger statusCode = 0;
+            NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+            if ([httpResponse isKindOfClass:[NSHTTPURLResponse class]]) {
+                statusCode = httpResponse.statusCode;
+            }
+            
+            if (statusCode != 200)
+            {
+                NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                
+                NSString *title = @"Error";
+                NSString *message = @"Unable to tweet";
+                if (json[@"errors"] != nil && [json[@"errors"] count] > 0)
+                {
+                    title   = [title   stringByAppendingFormat:@" %@",   [json[@"errors"] firstObject][@"code"]];
+                    message = [message stringByAppendingFormat:@":\n%@", [json[@"errors"] firstObject][@"message"]];
+                }
+                
+                UIAlertController *alert = [UIAlertController alertControllerWithTitle:title
+                                                                               message:message
+                                                                        preferredStyle:UIAlertControllerStyleAlert];
+                [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil]];
+                [self presentViewController:alert animated:YES completion:nil];
+            }
+        }
+        else
+        {
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Network Error"
+                                                                           message:@"Unable to tweet"
+                                                                    preferredStyle:UIAlertControllerStyleAlert];
+            [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil]];
+            [self presentViewController:alert animated:YES completion:nil];
+        }
+    }];
+    [task resume];
+    [ViewController isLoading:YES];
 }
 
 + (void) isLoading:(BOOL)hasActiveRequest
