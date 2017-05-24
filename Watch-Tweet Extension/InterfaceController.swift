@@ -13,6 +13,7 @@ class InterfaceController: WKInterfaceController {
     
     @IBOutlet var nowPlayingLabel: WKInterfaceLabel!
     @IBOutlet var tweetBtn: WKInterfaceButton!
+    @IBOutlet var artworkSwitch: WKInterfaceSwitch!
     @IBOutlet var artwork: WKInterfaceImage!
     
     var session: WCSession? {
@@ -69,7 +70,9 @@ class InterfaceController: WKInterfaceController {
                                 self.presentAlert(withTitle: "Unable to update artwork setting",
                                                   message: error.localizedDescription,
                                                   preferredStyle: .alert,
-                                                  actions: [WKAlertAction(title: "Cancel", style: .cancel) {}])
+                                                  actions: [WKAlertAction(title: "Cancel", style: .cancel) {
+                                                    self.artworkSwitch.setOn(!value)
+                                                    }])
         }
     }
     

@@ -50,6 +50,7 @@
                     </menu>
                     <connections>
                         <outlet property="artwork" destination="ro2-ut-jIP" id="hMs-SF-Hsz"/>
+                        <outlet property="artworkSwitch" destination="REy-mi-T2m" id="tKE-WD-ugD"/>
                         <outlet property="nowPlayingLabel" destination="x94-xT-kFd" id="WNf-YY-w9a"/>
                         <outlet property="tweetBtn" destination="Sfz-ag-bAQ" id="A3j-B3-SHM"/>
                     </connections>
