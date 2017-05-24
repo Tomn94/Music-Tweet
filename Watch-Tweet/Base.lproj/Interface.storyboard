@@ -16,7 +16,7 @@
                     <items>
                         <group width="1" alignment="left" id="Azs-I5-fCB">
                             <items>
-                                <label alignment="left" text="Unknown song" id="x94-xT-kFd"/>
+                                <label alignment="left" text="Unknown song" numberOfLines="0" id="x94-xT-kFd"/>
                             </items>
                             <edgeInsets key="margins" left="0.0" right="0.0" top="5" bottom="0.0"/>
                         </group>
