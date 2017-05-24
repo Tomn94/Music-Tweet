@@ -303,9 +303,9 @@
                 UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"You're connected!"
                                                                                message:@"Tweeting your music now…"
                                                                         preferredStyle:UIAlertControllerStyleAlert];
-                [alert addAction:[UIAlertAction actionWithTitle:@"Let's go" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                [alert addAction:[UIAlertAction actionWithTitle:@"Let's go" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                     [self tweet];
-                }]];
+                }]];[alert addAction:[UIAlertAction actionWithTitle:@"Changed my mind" style:UIAlertActionStyleCancel handler:nil]];
                 [self presentViewController:alert animated:YES completion:nil];
             }
             else
