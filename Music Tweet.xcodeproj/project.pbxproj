@@ -27,6 +27,7 @@
 		64D85EC21ED5ACE200547615 /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64D85EC11ED5ACE200547615 /* ExtensionDelegate.swift */; };
 		64D85EC41ED5ACE200547615 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 64D85EC31ED5ACE200547615 /* Assets.xcassets */; };
 		64D85EC81ED5ACE200547615 /* Watch-Tweet.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 64D85EAE1ED5ACE200547615 /* Watch-Tweet.app */; };
+		64D85ED41ED5C30400547615 /* ConnectivityHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 64D85ED31ED5C30400547615 /* ConnectivityHandler.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -112,6 +113,8 @@
 		64D85EC11ED5ACE200547615 /* ExtensionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
 		64D85EC31ED5ACE200547615 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		64D85EC51ED5ACE200547615 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		64D85ED21ED5C30400547615 /* ConnectivityHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectivityHandler.h; sourceTree = "<group>"; };
+		64D85ED31ED5C30400547615 /* ConnectivityHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectivityHandler.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -184,6 +187,8 @@
 			children = (
 				6410FF0A18F9BA4600DACFBE /* AppDelegate.h */,
 				6410FF0B18F9BA4600DACFBE /* AppDelegate.m */,
+				64D85ED21ED5C30400547615 /* ConnectivityHandler.h */,
+				64D85ED31ED5C30400547615 /* ConnectivityHandler.m */,
 				6410FF0D18F9BA4600DACFBE /* Main.storyboard */,
 				6410FF1018F9BA4600DACFBE /* ViewController.h */,
 				6410FF1118F9BA4700DACFBE /* ViewController.m */,
@@ -415,6 +420,7 @@
 				6410FF1218F9BA4700DACFBE /* ViewController.m in Sources */,
 				641226581ED4F4C800ACE1AA /* TDOAuth.m in Sources */,
 				6410FF0C18F9BA4600DACFBE /* AppDelegate.m in Sources */,
+				64D85ED41ED5C30400547615 /* ConnectivityHandler.m in Sources */,
 				6410FF0818F9BA4600DACFBE /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
