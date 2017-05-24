@@ -36,6 +36,7 @@ typedef NS_ENUM(NSInteger, TDOAuthSignatureMethod) {
 typedef NS_ENUM(NSInteger, TDOAuthContentType) {
     TDOAuthContentTypeUrlEncodedForm,
     TDOAuthContentTypeJsonObject,
+    TDOAuthContentTypeMultipartForm
 };
 
 /**
@@ -123,6 +124,28 @@ typedef NS_ENUM(NSInteger, TDOAuthContentType) {
                        dataEncoding:(TDOAuthContentType)dataEncoding
                        headerValues:(NSDictionary *)headerValues
                     signatureMethod:(TDOAuthSignatureMethod)signatureMethod;
+
+/**
+ Adds an arraw of raw POST data in multipart/form-data requests
+ rawPOSTdata entries must be dictionaries with:
+    - name: name of the POST parameter
+    - file: name of the file to upload
+    - type: file type
+    - data: raw file data
+ */
++ (NSURLRequest *)URLRequestForPath:(NSString *)unencodedPathWithoutQuery
+                         parameters:(NSDictionary *)unencodedParameters
+                               host:(NSString *)host
+                        consumerKey:(NSString *)consumerKey
+                     consumerSecret:(NSString *)consumerSecret
+                        accessToken:(NSString *)accessToken
+                        tokenSecret:(NSString *)tokenSecret
+                             scheme:(NSString *)scheme
+                      requestMethod:(NSString *)method
+                       dataEncoding:(TDOAuthContentType)dataEncoding
+                       headerValues:(NSDictionary *)headerValues
+                    signatureMethod:(TDOAuthSignatureMethod)signatureMethod
+                        rawPOSTData:(NSArray *)rawPOSTdata;
 
 /**
  OAuth requires the UTC timestamp we send to be accurate. The user's device
