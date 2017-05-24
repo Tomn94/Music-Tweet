@@ -25,22 +25,36 @@
                                 <button width="1" alignment="left" title="Tweet" id="Sfz-ag-bAQ">
                                     <color key="titleColor" red="1" green="0.066666666666666666" blue="0.30980392156862746" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="backgroundColor" red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="0.17000000000000001" colorSpace="calibratedRGB"/>
+                                    <connections>
+                                        <action selector="tweet" destination="AgC-eL-Hgc" id="Dxn-Bp-th6"/>
+                                    </connections>
                                 </button>
                             </items>
                             <edgeInsets key="margins" left="0.0" right="0.0" top="5" bottom="5"/>
                         </group>
                         <switch width="1" alignment="left" value="YES" title="Artwork" id="REy-mi-T2m">
-                            <color key="tintColor" red="1" green="0.066666666666666666" blue="0.30980392156862746" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="artworkActivationChanged:" destination="AgC-eL-Hgc" id="Hoo-Bo-Kda"/>
+                            </connections>
                         </switch>
                         <imageView alignment="left" id="ro2-ut-jIP"/>
                     </items>
                     <menu key="menu" id="sHD-TG-gff">
                         <items>
-                            <menuItem title="Reset" icon="repeat" id="Dru-Lg-pQ6"/>
+                            <menuItem title="Reset" icon="repeat" id="Dru-Lg-pQ6">
+                                <connections>
+                                    <action selector="reset" destination="AgC-eL-Hgc" id="Ae6-j7-dSF"/>
+                                </connections>
+                            </menuItem>
                         </items>
                     </menu>
+                    <connections>
+                        <outlet property="artwork" destination="ro2-ut-jIP" id="hMs-SF-Hsz"/>
+                        <outlet property="nowPlayingLabel" destination="x94-xT-kFd" id="WNf-YY-w9a"/>
+                    </connections>
                 </controller>
             </objects>
         </scene>
     </scenes>
+    <color key="tintColor" red="1" green="0.066666666666666666" blue="0.30980392156862746" alpha="1" colorSpace="calibratedRGB"/>
 </document>

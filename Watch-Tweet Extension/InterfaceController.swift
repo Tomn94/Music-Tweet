@@ -11,11 +11,14 @@ import Foundation
 
 
 class InterfaceController: WKInterfaceController {
+    
+    @IBOutlet var nowPlayingLabel: WKInterfaceLabel!
+    @IBOutlet var artwork: WKInterfaceImage!
 
     override func awake(withContext context: Any?) {
         super.awake(withContext: context)
         
-        // Configure interface objects here.
+        reset()
     }
     
     override func willActivate() {
@@ -28,4 +31,13 @@ class InterfaceController: WKInterfaceController {
         super.didDeactivate()
     }
 
+    @IBAction func tweet() {
+    }
+    
+    @IBAction func reset() {
+    }
+    
+    @IBAction func artworkActivationChanged(_ value: Bool) {
+    }
+    
 }
