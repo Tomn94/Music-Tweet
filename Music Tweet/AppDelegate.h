@@ -6,7 +6,8 @@
 //  Copyright (c) 2014 U969H3GXLU. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+@import UIKit;
+#import "ConnectivityHandler.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 

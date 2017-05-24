@@ -10,5 +10,11 @@
 @import WatchConnectivity;
 
 @interface ConnectivityHandler : NSObject <WCSessionDelegate>
+{
+    WCSession *session;
+}
+
++ (ConnectivityHandler *) sharedHandler;
+- (void) startSession;
 
 @end
