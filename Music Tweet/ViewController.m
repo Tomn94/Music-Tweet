@@ -104,7 +104,7 @@
                         _textField.text = sLast;
                         _tweetBtn.enabled = YES;
                         
-                        UIImage *illustration = [[currentItem valueForProperty:MPMediaItemPropertyArtwork] imageWithSize:CGSizeMake(50, 50)];
+                        UIImage *illustration = [[currentItem valueForProperty:MPMediaItemPropertyArtwork] imageWithSize:CGSizeMake(600, 600)];
                         if (_artwork.isEnabled)
                             previousArtworkState = _artwork.isOn;
                         _artwork.enabled = illustration != nil;
@@ -343,7 +343,102 @@
         return;
     }
     
+    if (_artwork.isOn && _artwork.isEnabled && _artworkView.image != nil) {
+        [self tweetArtwork];
+    } else {
+        [self tweetTextWith:nil];
+    }
+}
+
+- (void) tweetArtwork
+{
+    UIImage *illustration = _artworkView.image;
+    if (illustration == nil)
+    {
+        [self tweetTextWith:nil];
+        return;
+    }
     
+    NSURLRequest *request = [TDOAuth URLRequestForPath:@"/1.1/media/upload.json"
+                                            parameters:nil
+                                                  host:@"upload.twitter.com"
+                                           consumerKey:TWITTER_APP_CONSUMER_KEY
+                                        consumerSecret:TWITTER_APP_CONSUMER_SECRET
+                                           accessToken:twitterUserToken
+                                           tokenSecret:twitterUserSecret
+                                                scheme:@"https"
+                                         requestMethod:@"POST"
+                                          dataEncoding:TDOAuthContentTypeMultipartForm
+                                          headerValues:nil
+                                       signatureMethod:TDOAuthSignatureMethodHmacSha1
+                                           rawPOSTData:@[ @{ @"name": @"media",
+                                                             @"file": @"artwork",
+                                                             @"type": @"image/jpeg",
+                                                             @"data": UIImageJPEGRepresentation(illustration, 0.8) }]];
+    
+    NSURLSessionConfiguration *defaultConfigObject = [NSURLSessionConfiguration defaultSessionConfiguration];
+    NSURLSession              *defaultSession      = [NSURLSession sessionWithConfiguration:defaultConfigObject
+                                                                                   delegate:nil
+                                                                              delegateQueue:[NSOperationQueue mainQueue]];
+    
+    NSURLSessionDataTask *task = [defaultSession dataTaskWithRequest:request
+                                                   completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error)
+    {
+        [ViewController isLoading:NO];
+        
+        if (error == nil && data != nil)
+        {
+            NSInteger statusCode = 0;
+            NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+            if ([httpResponse isKindOfClass:[NSHTTPURLResponse class]]) {
+                statusCode = httpResponse.statusCode;
+            }
+            
+            if (statusCode == 200)
+            {
+                NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                
+                if (json != nil && json[@"media_id"] != nil)
+                    [self tweetTextWith:@[ json[@"media_id"] ]];
+                else
+                {
+                    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error"
+                                                                                   message:@"Unable to get ID for uploaded media"
+                                                                            preferredStyle:UIAlertControllerStyleAlert];
+                    [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil]];
+                    [self presentViewController:alert animated:YES completion:nil];
+                }
+            }
+            else
+            {
+                NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                
+                NSString *title = @"Error";
+                NSString *message = @"Unable to upload media";
+                if (json != nil && json[@"errors"] != nil && [json[@"errors"] count] > 0)
+                {
+                    title   = [title   stringByAppendingFormat:@" %@",   [json[@"errors"] firstObject][@"code"]];
+                    message = [message stringByAppendingFormat:@":\n%@", [json[@"errors"] firstObject][@"message"]];
+                }
+                
+                UIAlertController *alert = [UIAlertController alertControllerWithTitle:title
+                                                                               message:message
+                                                                        preferredStyle:UIAlertControllerStyleAlert];
+                [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil]];
+                [self presentViewController:alert animated:YES completion:nil];
+            }
+        }
+        else
+        {
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Network Error"
+                                                                           message:@"Unable to upload media"
+                                                                    preferredStyle:UIAlertControllerStyleAlert];
+            [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil]];
+            [self presentViewController:alert animated:YES completion:nil];
+        }
+    }];
+    [task resume];
+    [ViewController isLoading:YES];
 }
 
 - (void) tweetTextWith:(NSArray*)mediaIDs
