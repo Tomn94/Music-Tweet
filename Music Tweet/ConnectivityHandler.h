@@ -8,6 +8,7 @@
 
 @import UIKit;
 @import WatchConnectivity;
+#import "ViewController.h"
 
 @interface ConnectivityHandler : NSObject <WCSessionDelegate>
 {

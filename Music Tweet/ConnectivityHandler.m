@@ -56,4 +56,33 @@ activationDidCompleteWithState:(WCSessionActivationState)activationState
     
 }
 
+- (void)   session:(WCSession *)session
+ didReceiveMessage:(NSDictionary<NSString *,id> *)message
+      replyHandler:(void (^)(NSDictionary<NSString *,id> * _Nonnull))replyHandler
+{
+    if (message[@"action"] != nil)
+    {
+        if ([message[@"action"] isEqualToString:@"tweet"])
+        {
+            
+        }
+    }
+    else if (message[@"get"] != nil)
+    {
+        if ([message[@"get"] isEqualToString:@"info"])
+        {
+            
+        }
+    }
+    else if (message[@"setArworkOn"] != nil)
+    {
+        [[NSUserDefaults standardUserDefaults] setBool:[message[@"setArworkOn"] boolValue]
+                                                forKey:DEFAULTS_ARTWORK_KEY];
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"artworkSettingsChanged"
+                                                            object:nil
+                                                          userInfo:@{ @"on": @YES }];
+    }
+}
+
 @end

@@ -43,6 +43,9 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(twitter_receivedCallback:)
                                                  name:@"receivedCallback" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(artworkSettingsChanged:)
+                                                 name:@"artworkSettingsChanged" object:nil];
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle{
@@ -132,10 +135,15 @@
     }];
 }
 
-- (IBAction) artworkActivationChanged {
-    
+- (IBAction) artworkActivationChanged
+{
     [[NSUserDefaults standardUserDefaults] setBool:_artwork.isOn
                                             forKey:DEFAULTS_ARTWORK_KEY];
+}
+
+- (void) artworkSettingsChanged:(NSNotification *)notif
+{
+    [_artwork setOn:[notif.userInfo[@"on"] boolValue]];
 }
 
 
