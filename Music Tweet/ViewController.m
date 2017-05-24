@@ -226,6 +226,9 @@
     if ([SFSafariViewController class])
         [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
     
+    if (notif.userInfo[@"denied"] != nil)
+        return;
+    
     if (twitterSignInToken == nil)
     {
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error"

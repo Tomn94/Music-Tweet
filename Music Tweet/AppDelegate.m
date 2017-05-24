@@ -59,7 +59,7 @@
    sourceApplication:(NSString *)sourceApplication
           annotation:(id)annotation
 {
-    if ([sourceApplication isEqualToString:@""] && [url.scheme isEqualToString:@"musictweet"])
+    if ([url.scheme isEqualToString:@"musictweet"])
     {
         NSMutableDictionary *dict = [NSMutableDictionary dictionary];
         NSArray *pairs = [url.query componentsSeparatedByString:@"&"];
