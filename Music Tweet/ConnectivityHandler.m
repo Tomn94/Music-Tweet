@@ -65,7 +65,6 @@ activationDidCompleteWithState:(WCSessionActivationState)activationState
 
 - (void)   session:(WCSession *)session
  didReceiveMessage:(NSDictionary<NSString *,id> *)message
-      replyHandler:(void (^)(NSDictionary<NSString *,id> * _Nonnull))replyHandler
 {
     if (message[@"action"] != nil)
     {
@@ -74,16 +73,9 @@ activationDidCompleteWithState:(WCSessionActivationState)activationState
             NSString *token = TwitterHandler.sharedHandler.twitterUserToken;
             if (token == nil || [token isEqualToString:@""])
                 [self sendAlert:@{ @"title":   @"First time you tweet?",
-                                   @"message": @"Please tweet using the iPhone app to Sign In with Twitter.\nEverything will be in order for the next time!"}];
+                                   @"message": @"Please tweet using the iPhone app to Sign In with Twitter.\nEverything will be in order next time!"}];
             else
                 [TwitterHandler.sharedHandler tweet];
-        }
-    }
-    else if (message[@"get"] != nil)
-    {
-        if ([message[@"get"] isEqualToString:@"info"])
-        {
-            replyHandler([self infoToSend]);
         }
     }
     else if (message[@"setArworkOn"] != nil)
@@ -94,6 +86,19 @@ activationDidCompleteWithState:(WCSessionActivationState)activationState
         [[NSNotificationCenter defaultCenter] postNotificationName:@"artworkSettingsChanged"
                                                             object:nil
                                                           userInfo:@{ @"on": @YES }];
+    }
+}
+
+- (void)   session:(WCSession *)session
+ didReceiveMessage:(NSDictionary<NSString *,id> *)message
+      replyHandler:(void (^)(NSDictionary<NSString *,id> * _Nonnull))replyHandler
+{
+    if (message[@"get"] != nil)
+    {
+        if ([message[@"get"] isEqualToString:@"info"])
+        {
+            replyHandler([self infoToSend]);
+        }
     }
 }
 
@@ -108,9 +113,9 @@ activationDidCompleteWithState:(WCSessionActivationState)activationState
     if (text)
         info[@"text"] = [MusicHandler generateTweetText];
     
-    UIImage *artwork = [MusicHandler getCurrentArtwork];
+    UIImage *artwork = [MusicHandler getCurrentArtwork:CGSizeMake(100, 100)];
     if (artwork)
-        info[@"artworkData"] = UIImageJPEGRepresentation([MusicHandler getCurrentArtwork], 0.8);
+        info[@"artworkData"] = UIImageJPEGRepresentation(artwork, 0.8);
     
     return info;
 }

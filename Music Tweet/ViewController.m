@@ -105,15 +105,15 @@
                     
                 case MPMediaLibraryAuthorizationStatusAuthorized: {
                     
-                    MPMediaItem *currentItem = [[MPMusicPlayerController systemMusicPlayer] nowPlayingItem];
-                    if (currentItem)
+                    if (MusicHandler.hasItemPlaying)
                     {
                         _textField.text = [MusicHandler generateTweetText];
                         _tweetBtn.enabled = YES;
                         
-                        UIImage *illustration = [MusicHandler getCurrentArtwork];
                         if (_artwork.isEnabled)
                             previousArtworkState = _artwork.isOn;
+                        
+                        UIImage *illustration = [MusicHandler getCurrentArtwork:CGSizeMake(100, 100)];
                         _artwork.enabled = illustration != nil;
                         if (!illustration) {
                             _artwork.on = NO;

@@ -12,7 +12,9 @@
 
 @interface MusicHandler : NSObject
 
++ (BOOL) hasItemPlaying;
 + (NSString *) generateTweetText;
 + (UIImage *)  getCurrentArtwork;
++ (UIImage *)  getCurrentArtwork:(CGSize)size;
 
 @end

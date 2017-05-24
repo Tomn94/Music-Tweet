@@ -7,7 +7,6 @@
 //
 
 @import UIKit;
-@import MediaPlayer;
 @import SafariServices;
 #import "MusicHandler.h"
 #import "TwitterHandler.h"

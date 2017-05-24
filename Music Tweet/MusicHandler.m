@@ -10,14 +10,21 @@
 
 @implementation MusicHandler
 
-+ (NSString *) generateTweetText
++ (BOOL) hasItemPlaying
 {
     if (MPMediaLibrary.authorizationStatus != MPMediaLibraryAuthorizationStatusAuthorized)
+        return NO;
+    
+    MPMediaItem *currentItem = [[MPMusicPlayerController systemMusicPlayer] nowPlayingItem];
+    return currentItem != nil;
+}
+
++ (NSString *) generateTweetText
+{
+    if (!self.hasItemPlaying)
         return nil;
     
     MPMediaItem *currentItem = [[MPMusicPlayerController systemMusicPlayer] nowPlayingItem];
-    if (!currentItem)
-        return nil;
     
     NSString *s1 = @"#NP ▶️ ";
     NSString *s2 = [s1 stringByAppendingString:[currentItem valueForProperty:MPMediaItemPropertyTitle]];
@@ -30,14 +37,17 @@
 
 + (UIImage *) getCurrentArtwork
 {
-    if (MPMediaLibrary.authorizationStatus != MPMediaLibraryAuthorizationStatusAuthorized)
+    return [self getCurrentArtwork:ARTWORK_SIZE];
+}
+
++ (UIImage *) getCurrentArtwork:(CGSize)size
+{
+    if (!self.hasItemPlaying)
         return nil;
     
     MPMediaItem *currentItem = [[MPMusicPlayerController systemMusicPlayer] nowPlayingItem];
-    if (!currentItem)
-        return nil;
     
-    return [[currentItem valueForProperty:MPMediaItemPropertyArtwork] imageWithSize:ARTWORK_SIZE];
+    return [[currentItem valueForProperty:MPMediaItemPropertyArtwork] imageWithSize:size];
 }
 
 @end
