@@ -78,14 +78,16 @@ activationDidCompleteWithState:(WCSessionActivationState)activationState
                 [TwitterHandler.sharedHandler tweet];
         }
     }
-    else if (message[@"setArworkOn"] != nil)
+    if (message[@"setArworkOn"] != nil)
     {
-        [[NSUserDefaults standardUserDefaults] setBool:[message[@"setArworkOn"] boolValue]
+        BOOL activated = [message[@"setArworkOn"] boolValue];
+        
+        [[NSUserDefaults standardUserDefaults] setBool:activated
                                                 forKey:DEFAULTS_ARTWORK_KEY];
         
         [[NSNotificationCenter defaultCenter] postNotificationName:@"artworkSettingsChanged"
                                                             object:nil
-                                                          userInfo:@{ @"on": @YES }];
+                                                          userInfo:@{ @"on": @(activated) }];
     }
 }
 

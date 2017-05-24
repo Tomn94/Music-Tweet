@@ -149,7 +149,16 @@
 
 - (void) artworkSettingsChanged:(NSNotification *)notif
 {
-    [_artwork setOn:[notif.userInfo[@"on"] boolValue]];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        BOOL forceUpdate = _textField.isFirstResponder;
+        if (forceUpdate)
+            [_artwork becomeFirstResponder];
+        
+        [_artwork setOn:[notif.userInfo[@"on"] boolValue]];
+        
+        if (forceUpdate)
+            [_textField becomeFirstResponder];
+    });
 }
 
 #pragma mark - Sign In with Twitter
