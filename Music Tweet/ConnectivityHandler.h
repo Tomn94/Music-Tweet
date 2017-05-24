@@ -21,6 +21,6 @@
 
 - (void) sendInfos;
 - (void) artworkActivationChanged:(BOOL)activated;
-- (void) sendAlert;
+- (void) sendAlert:(NSDictionary *)infos;
 
 @end

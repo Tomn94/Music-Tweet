@@ -68,15 +68,18 @@ activationDidCompleteWithState:(WCSessionActivationState)activationState
     {
         if ([message[@"action"] isEqualToString:@"tweet"])
         {
-            
+            NSString *token = TwitterHandler.sharedHandler.twitterUserToken;
+            if (token == nil || [token isEqualToString:@""])
+                [self sendAlert:@{ @"title":   @"First time you tweet?",
+                                   @"message": @"Please tweet using the iPhone app to Sign In with Twitter.\nEverything will be in order for the next time!"}];
+            else
+                [TwitterHandler.sharedHandler tweet];
         }
     }
     else if (message[@"get"] != nil)
     {
         if ([message[@"get"] isEqualToString:@"info"])
-        {
-            [MusicHandler generateTweetText];
-        }
+            [self sendInfos];
     }
     else if (message[@"setArworkOn"] != nil)
     {
@@ -101,7 +104,7 @@ activationDidCompleteWithState:(WCSessionActivationState)activationState
     
 }
 
-- (void) sendAlert
+- (void) sendAlert:(NSDictionary *)infos
 {
     
 }
