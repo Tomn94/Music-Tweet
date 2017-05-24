@@ -17,6 +17,8 @@
     
     NSString *twitterUserToken;
     NSString *twitterUserSecret;
+    
+    NSString *twitterSignInToken;
 }
 
 @property (weak, nonatomic) IBOutlet UITextView  *textField;

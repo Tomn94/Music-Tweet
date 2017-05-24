@@ -61,7 +61,20 @@
 {
     if ([sourceApplication isEqualToString:@""] && [url.scheme isEqualToString:@"musictweet"])
     {
-//        NSString *query = url.query;
+        NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+        NSArray *pairs = [url.query componentsSeparatedByString:@"&"];
+        
+        for (NSString *pair in pairs) {
+            NSArray *elements = [pair componentsSeparatedByString:@"="];
+            NSString *key = [elements[0] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+            NSString *val = [elements[1] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+            [dict setObject:val forKey:key];
+        }
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"receivedCallback"
+                                                            object:nil
+                                                          userInfo:dict];
+        
         return YES;
     }
     

@@ -39,6 +39,10 @@
     twitterUserToken = [defaults objectForKey:DEFAULTS_TOKEN_KEY]; // FIXME: Use Keychain
     
     [self reset:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(twitter_receivedCallback:)
+                                                 name:@"receivedCallback" object:nil];
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle{
@@ -137,6 +141,8 @@
 
 - (void) twitter_requestToken
 {
+    twitterSignInToken = nil;
+    
     NSURLRequest *request = [TDOAuth URLRequestForPath:@"/oauth/request_token"
                                         POSTParameters:@{ @"oauth_callback" : @"musictweet://sign" }
                                                   host:@"api.twitter.com"
@@ -176,12 +182,13 @@
              if (token != nil && secret != nil &&
                  ([confirmation isEqualToString:@"1"] || [[confirmation lowercaseString] isEqualToString:@"true"])) {
                  
-                 [self twitter_engageConnection:token];
+                 twitterSignInToken = token;
+                 [self twitter_engageConnection];
              }
              else
              {
                  UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error"
-                                                                                message:raw//TODO: @"Unable to get a valid Sign In Token from Twitter"
+                                                                                message:@"Unable to get a valid Sign In Token from Twitter"
                                                                          preferredStyle:UIAlertControllerStyleAlert];
                  [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil]];
                  [self presentViewController:alert animated:YES completion:nil];
@@ -200,9 +207,9 @@
     [ViewController isLoading:YES];
 }
 
-- (void) twitter_engageConnection:(NSString *)token
+- (void) twitter_engageConnection
 {
-    NSURL *url = [NSURL URLWithString:[@"https://api.twitter.com/oauth/authenticate?oauth_token=" stringByAppendingString:[token stringByAddingPercentEncodingWithAllowedCharacters:NSCharacterSet.URLHostAllowedCharacterSet]]];
+    NSURL *url = [NSURL URLWithString:[@"https://api.twitter.com/oauth/authenticate?oauth_token=" stringByAppendingString:[twitterSignInToken stringByAddingPercentEncodingWithAllowedCharacters:NSCharacterSet.URLHostAllowedCharacterSet]]];
     
     if ([SFSafariViewController class])
     {
@@ -212,6 +219,53 @@
     }
     else
         [[UIApplication sharedApplication] openURL:url];
+}
+
+- (void) twitter_receivedCallback:(NSNotification *)notif
+{
+    if ([SFSafariViewController class])
+        [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
+    
+    if (twitterSignInToken == nil)
+    {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error"
+                                                                       message:@"Please retry, the previously requested token is unknown"
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil]];
+        [self presentViewController:alert animated:YES completion:nil];
+        
+        return;
+    }
+    
+    if (notif.userInfo[@"oauth_token"] != nil && notif.userInfo[@"oauth_verifier"] != nil)
+    {
+        if ([notif.userInfo[@"oauth_token"] isEqualToString:twitterSignInToken])
+        {
+            twitterSignInToken = nil;
+            [self twitter_requestAccessToken:notif.userInfo];
+        }
+        else
+        {
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error"
+                                                                           message:@"Twitter token differs from request"
+                                                                    preferredStyle:UIAlertControllerStyleAlert];
+            [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil]];
+            [self presentViewController:alert animated:YES completion:nil];
+        }
+    }
+    else
+    {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error"
+                                                                       message:@"Unable to back access confirmation by Twitter"
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil]];
+        [self presentViewController:alert animated:YES completion:nil];
+    }
+}
+
+- (void) twitter_requestAccessToken:(NSDictionary *)tokens
+{
+    
 }
 
 - (void) tweet
