@@ -43,7 +43,7 @@
                         <items>
                             <menuItem title="Reset" icon="repeat" id="Dru-Lg-pQ6">
                                 <connections>
-                                    <action selector="reset" destination="AgC-eL-Hgc" id="Ae6-j7-dSF"/>
+                                    <action selector="reset" destination="AgC-eL-Hgc" id="YOb-BU-EcR"/>
                                 </connections>
                             </menuItem>
                         </items>

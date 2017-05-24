@@ -28,7 +28,7 @@ class InterfaceController: WKInterfaceController {
         session = WCSession.default()
         session?.delegate = self
         session?.activate()
-        reset()
+        reset(checkErrors: false)
     }
     
     @IBAction func tweet() {
@@ -50,7 +50,12 @@ class InterfaceController: WKInterfaceController {
         })
     }
     
-    @IBAction func reset() {
+    @IBAction func reset()
+    {
+        reset(checkErrors: true)
+    }
+    
+    @IBAction func reset(checkErrors: Bool = true) {
         
         session?.sendMessage(["get" : "info"],
                              replyHandler: { info in
@@ -66,12 +71,14 @@ class InterfaceController: WKInterfaceController {
                                 self.tweetBtn.setEnabled(!(text?.isEmpty ?? true))
                                 
         }) { error in
-            self.presentAlert(withTitle: "Unable to get current track from iPhone",
-                              message: error.localizedDescription,
-                              preferredStyle: .alert,
-                              actions: [WKAlertAction(title: "Cancel", style: .cancel) {
-                                    self.tweetBtn.setEnabled(false)
-                                }])
+            if (checkErrors) {
+                self.presentAlert(withTitle: "Unable to get current track from iPhone",
+                                  message: error.localizedDescription,
+                                  preferredStyle: .alert,
+                                  actions: [WKAlertAction(title: "Cancel", style: .cancel) {
+                                        self.tweetBtn.setEnabled(false)
+                                    }])
+            }
         }
     }
     
