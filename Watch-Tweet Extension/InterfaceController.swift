@@ -16,19 +16,18 @@ class InterfaceController: WKInterfaceController {
     @IBOutlet var artworkSwitch: WKInterfaceSwitch!
     @IBOutlet var artwork: WKInterfaceImage!
     
-    var session: WCSession? {
-        didSet {
-            if let session = session {
-                session.delegate = self
-                session.activate()
-            }
-        }
-    }
+    var session: WCSession?
 
     override func awake(withContext context: Any?) {
         super.awake(withContext: context)
+    }
+    
+    override func willActivate() {
+        super.willActivate()
         
         session = WCSession.default()
+        session?.delegate = self
+        session?.activate()
         reset()
     }
     
@@ -59,15 +58,20 @@ class InterfaceController: WKInterfaceController {
                                 let text = info["text"] as? String
                                 self.nowPlayingLabel.setText(text)
                                 self.artworkSwitch.setOn(info["artworkMode"] as? Bool ?? false)
-                                self.artwork.setImage(info["artworkData"] as? UIImage)
+                                if let artworkData = info["artworkData"] as? Data {
+                                    self.artwork.setImage(UIImage(data: artworkData))
+                                } else {
+                                    self.artwork.setImage(nil)
+                                }
                                 self.tweetBtn.setEnabled(!(text?.isEmpty ?? true))
                                 
         }) { error in
-            self.tweetBtn.setEnabled(false)
             self.presentAlert(withTitle: "Unable to get current track from iPhone",
                               message: error.localizedDescription,
                               preferredStyle: .alert,
-                              actions: [WKAlertAction(title: "Cancel", style: .cancel) {}])
+                              actions: [WKAlertAction(title: "Cancel", style: .cancel) {
+                                    self.tweetBtn.setEnabled(false)
+                                }])
         }
     }
     
@@ -102,8 +106,8 @@ extension InterfaceController: WCSessionDelegate {
     }
     
     func session(_ session: WCSession,
-                 didReceiveMessage message: [String : Any],
-                 replyHandler: @escaping ([String : Any]) -> Void) {
+                 didReceiveMessage message: [String : Any]) {
+        
         if let info = message["info"] as? [String: Any] {
             if let text = info["text"] as? String {
                 nowPlayingLabel.setText(text)
