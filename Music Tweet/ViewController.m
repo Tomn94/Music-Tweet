@@ -220,7 +220,8 @@
         [self presentViewController:safari animated:YES completion:nil];
     }
     else
-        [[UIApplication sharedApplication] openURL:url];
+        [[UIApplication sharedApplication] openURL:url
+                                           options:@{} completionHandler:nil];
 }
 
 - (void) twitter_receivedCallback:(NSNotification *)notif
