@@ -9,6 +9,7 @@
 @import Foundation;
 #import "TDOAuth.h"
 #import "MusicHandler.h"
+#import "ConnectivityHandler.h"
 #import "Secrets.h"
 
 #define SYSTEM_VERSION_GREATERTHAN_OR_EQUALTO(v) ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)

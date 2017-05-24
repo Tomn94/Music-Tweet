@@ -48,15 +48,21 @@
 {
     [[NSNotificationCenter defaultCenter] postNotificationName:@"tweetSuccess"
                                                         object:nil];
+    
+    [ConnectivityHandler.sharedHandler tweeted];
 }
 
 - (void) error:(NSString *)title
        message:(NSString *)message
 {
+    NSDictionary *content = @{ @"title": title,
+                               @"message": message };
+    
     [[NSNotificationCenter defaultCenter] postNotificationName:@"errorOccurred"
                                                         object:nil
-                                                      userInfo:@{ @"title": title,
-                                                                  @"message": message }];
+                                                      userInfo:content];
+    
+    [ConnectivityHandler.sharedHandler sendAlert:content];
 }
 
 #pragma mark - Sign In with Twitter

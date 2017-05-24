@@ -122,6 +122,13 @@ activationDidCompleteWithState:(WCSessionActivationState)activationState
     return info;
 }
 
+- (void) tweeted
+{
+    [session sendMessage:@{ @"tweeted": @(YES) }
+            replyHandler:nil
+            errorHandler:nil];
+}
+
 - (void) sendInfo
 {
     if (!self.isSessionValid)

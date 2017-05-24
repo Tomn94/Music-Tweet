@@ -19,6 +19,7 @@
 + (ConnectivityHandler *) sharedHandler;
 - (void) startSession;
 
+- (void) tweeted;
 - (void) sendInfo;
 - (void) artworkActivationChanged:(BOOL)activated;
 - (void) sendAlert:(NSDictionary *)info;
