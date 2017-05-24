@@ -373,6 +373,12 @@
                                                    completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error)
     {
         [ViewController isLoading:NO];
+        UINotificationFeedbackGenerator *generator;
+        if (SYSTEM_VERSION_GREATERTHAN_OR_EQUALTO(@"10")) {
+            generator = [UINotificationFeedbackGenerator new];
+            [generator prepare];
+            [generator notificationOccurred:UINotificationFeedbackTypeSuccess];
+        }
         
         if (error == nil && data != nil)
         {
@@ -382,7 +388,14 @@
                 statusCode = httpResponse.statusCode;
             }
             
-            if (statusCode != 200)
+            if (statusCode == 200)
+            {
+                AudioServicesPlaySystemSound(1016);
+                if (SYSTEM_VERSION_GREATERTHAN_OR_EQUALTO(@"10")) {
+                    [generator notificationOccurred:UINotificationFeedbackTypeSuccess];
+                }
+            }
+            else
             {
                 NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
                 
@@ -399,6 +412,10 @@
                                                                         preferredStyle:UIAlertControllerStyleAlert];
                 [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil]];
                 [self presentViewController:alert animated:YES completion:nil];
+                
+                if (SYSTEM_VERSION_GREATERTHAN_OR_EQUALTO(@"10")) {
+                    [generator notificationOccurred:UINotificationFeedbackTypeError];
+                }
             }
         }
         else
@@ -408,6 +425,10 @@
                                                                     preferredStyle:UIAlertControllerStyleAlert];
             [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil]];
             [self presentViewController:alert animated:YES completion:nil];
+            
+            if (SYSTEM_VERSION_GREATERTHAN_OR_EQUALTO(@"10")) {
+                [generator notificationOccurred:UINotificationFeedbackTypeError];
+            }
         }
     }];
     [task resume];
