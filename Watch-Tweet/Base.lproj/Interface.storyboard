@@ -16,13 +16,13 @@
                     <items>
                         <group width="1" alignment="left" id="Azs-I5-fCB">
                             <items>
-                                <label alignment="left" text="Label" id="x94-xT-kFd"/>
+                                <label alignment="left" text="Unknown song" id="x94-xT-kFd"/>
                             </items>
                             <edgeInsets key="margins" left="0.0" right="0.0" top="5" bottom="0.0"/>
                         </group>
                         <group width="1" alignment="left" id="naV-fX-Xn4">
                             <items>
-                                <button width="1" alignment="left" title="Tweet" id="Sfz-ag-bAQ">
+                                <button width="1" alignment="left" title="Tweet" enabled="NO" id="Sfz-ag-bAQ">
                                     <color key="titleColor" red="1" green="0.066666666666666666" blue="0.30980392156862746" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="backgroundColor" red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="0.17000000000000001" colorSpace="calibratedRGB"/>
                                     <connections>
@@ -51,6 +51,7 @@
                     <connections>
                         <outlet property="artwork" destination="ro2-ut-jIP" id="hMs-SF-Hsz"/>
                         <outlet property="nowPlayingLabel" destination="x94-xT-kFd" id="WNf-YY-w9a"/>
+                        <outlet property="tweetBtn" destination="Sfz-ag-bAQ" id="A3j-B3-SHM"/>
                     </connections>
                 </controller>
             </objects>
