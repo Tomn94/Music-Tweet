@@ -31,6 +31,8 @@
     NSString *twitterSignInToken;
 }
 
++ (NSString *) generateTweetText;
+
 @property (weak, nonatomic) IBOutlet UITextView  *textField;
 @property (weak, nonatomic) IBOutlet UISwitch    *artwork;
 @property (weak, nonatomic) IBOutlet UIImageView *artworkView;

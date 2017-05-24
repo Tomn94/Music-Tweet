@@ -71,7 +71,7 @@ activationDidCompleteWithState:(WCSessionActivationState)activationState
     {
         if ([message[@"get"] isEqualToString:@"info"])
         {
-            
+            [ViewController generateTweetText];
         }
     }
     else if (message[@"setArworkOn"] != nil)
