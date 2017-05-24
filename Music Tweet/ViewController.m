@@ -66,6 +66,24 @@
         [self tweet];
 }
 
++ (NSString *) generateTweetText
+{
+    if (MPMediaLibrary.authorizationStatus != MPMediaLibraryAuthorizationStatusAuthorized)
+        return nil;
+    
+    MPMediaItem *currentItem = [[MPMusicPlayerController systemMusicPlayer] nowPlayingItem];
+    if (!currentItem)
+        return nil;
+    
+    NSString *s1 = @"#NP ▶️ ";
+    NSString *s2 = [s1 stringByAppendingString:[currentItem valueForProperty:MPMediaItemPropertyTitle]];
+    NSString *s3 = [s2 stringByAppendingString:@" — "];
+    NSString *s4 = [s3 stringByAppendingString:[currentItem valueForProperty:MPMediaItemPropertyArtist]];
+    NSString *sLast = [s4 stringByAppendingString:@"\n"];
+    
+    return sLast;
+}
+
 /**
    Displays the current track info on the view controller
  */
@@ -100,13 +118,7 @@
                     MPMediaItem *currentItem = [[MPMusicPlayerController systemMusicPlayer] nowPlayingItem];
                     if (currentItem)
                     {
-                        NSString *s1 = @"#NP ▶️ ";
-                        NSString *s2 = [s1 stringByAppendingString:[currentItem valueForProperty:MPMediaItemPropertyTitle]];
-                        NSString *s3 = [s2 stringByAppendingString:@" — "];
-                        NSString *s4 = [s3 stringByAppendingString:[currentItem valueForProperty:MPMediaItemPropertyArtist]];
-                        NSString *sLast = [s4 stringByAppendingString:@"\n"];
-                        
-                        _textField.text = sLast;
+                        _textField.text = [ViewController generateTweetText];
                         _tweetBtn.enabled = YES;
                         
                         UIImage *illustration = [[currentItem valueForProperty:MPMediaItemPropertyArtwork] imageWithSize:CGSizeMake(600, 600)];
