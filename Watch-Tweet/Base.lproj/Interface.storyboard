@@ -36,7 +36,7 @@
                     </items>
                     <menu key="menu" id="sHD-TG-gff">
                         <items>
-                            <menuItem title="Reset" id="Dru-Lg-pQ6"/>
+                            <menuItem title="Reset" icon="repeat" id="Dru-Lg-pQ6"/>
                         </items>
                     </menu>
                 </controller>
