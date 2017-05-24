@@ -101,4 +101,33 @@ extension InterfaceController: WCSessionDelegate {
         }
     }
     
+    func session(_ session: WCSession,
+                 didReceiveMessage message: [String : Any],
+                 replyHandler: @escaping ([String : Any]) -> Void) {
+        if let info = message["info"] as? [String: Any] {
+            if let text = info["text"] as? String {
+                nowPlayingLabel.setText(text)
+            }
+            if let artworkMode = info["artworkMode"] as? Bool {
+                artworkSwitch.setOn(artworkMode)
+            }
+            if let artworkData = info["artworkData"] as? Data {
+                artwork.setImage(UIImage(data: artworkData))
+            }
+            
+        }
+        if let artworkMode = message["setArworkOn"] as? Bool {
+            artworkSwitch.setOn(artworkMode)
+        }
+        if let alert   = message["alert"] as? [String: String],
+           let title   = alert["title"],
+           let content = alert["message"] {
+            
+            presentAlert(withTitle: title,
+                         message: content,
+                         preferredStyle: .alert,
+                         actions: [WKAlertAction(title: "OK", style: .cancel) {}])
+        }
+    }
+    
 }
