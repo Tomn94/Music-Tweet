@@ -58,7 +58,7 @@ class InterfaceController: WKInterfaceController {
                              replyHandler: { info in
                                 
                                 let text = info["text"] as? String
-                                self.nowPlayingLabel.setText((text?.isEmpty ?? true) ? "No song is currently playing or paused" : text)
+                                self.nowPlayingLabel.setText((text?.isEmpty ?? true) ? "No song is currently playing or paused" : text?.trimmingCharacters(in: .whitespacesAndNewlines))
                                 
                                 self.artworkSwitch.setOn(info["artworkMode"] as? Bool ?? false)
                                 
@@ -119,7 +119,8 @@ extension InterfaceController: WCSessionDelegate {
         
         if let info = message["info"] as? [String: Any] {
             if let text = info["text"] as? String {
-                nowPlayingLabel.setText(text.isEmpty ? "No song is currently playing or paused" : text)
+                nowPlayingLabel.setText(text.isEmpty ? "No song is currently playing or paused"
+                                                     : text.trimmingCharacters(in: .whitespacesAndNewlines))
                 tweetBtn.setEnabled(!text.isEmpty)
             }
             if let artworkMode = info["artworkMode"] as? Bool {
