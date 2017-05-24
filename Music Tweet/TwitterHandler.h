@@ -30,6 +30,7 @@
 + (TwitterHandler *) sharedHandler;
 
 - (void) requestToken;
+- (void) receivedCallback:(NSDictionary *)info;
 - (void) tweet;
 
 @end

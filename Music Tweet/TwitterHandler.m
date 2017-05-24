@@ -24,10 +24,6 @@
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];  // FIXME: Use Keychain
         instance->_twitterUserToken  = [defaults objectForKey:DEFAULTS_TOKEN_KEY];
         instance->_twitterUserSecret = [defaults objectForKey:DEFAULTS_SECRET_KEY];
-        
-        [[NSNotificationCenter defaultCenter] addObserver:instance
-                                                 selector:@selector(receivedCallback:)
-                                                     name:@"receivedCallback" object:nil];
     }
     return instance;
 }
@@ -136,9 +132,9 @@
                                                       userInfo:@{ @"url": url }];
 }
 
-- (void) receivedCallback:(NSNotification *)notif
+- (void) receivedCallback:(NSDictionary *)info
 {   
-    if (notif.userInfo[@"denied"] != nil)
+    if (info == nil || info[@"denied"] != nil)
         return;
     
     if (_twitterSignInToken == nil)
@@ -148,10 +144,10 @@
         return;
     }
     
-    if (notif.userInfo[@"oauth_token"] != nil && notif.userInfo[@"oauth_verifier"] != nil)
+    if (info[@"oauth_token"] != nil && info[@"oauth_verifier"] != nil)
     {
-        if ([notif.userInfo[@"oauth_token"] isEqualToString:_twitterSignInToken])
-            [self requestAccessToken:notif.userInfo];
+        if ([info[@"oauth_token"] isEqualToString:_twitterSignInToken])
+            [self requestAccessToken:info];
         else
             [self error:@"Error"
                 message:@"Twitter token differs from request"];

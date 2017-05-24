@@ -9,6 +9,10 @@
 @import UIKit;
 #import "ConnectivityHandler.h"
 
+/**
+ Backbone of the iOS app
+ Refer to Apple Documentation for further information
+ */
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
