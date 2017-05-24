@@ -34,14 +34,21 @@ class InterfaceController: WKInterfaceController {
     
     @IBAction func tweet() {
         
+        tweetBtn.setEnabled(false)
         session?.sendMessage(["action" : "tweet"],
                              replyHandler: nil) { error in
-                                
-                                self.presentAlert(withTitle: "Unable to tweet current track",
-                                                  message: error.localizedDescription,
-                                                  preferredStyle: .alert,
-                                                  actions: [WKAlertAction(title: "Cancel", style: .cancel) {}])
+            
+            self.presentAlert(withTitle: "Unable to tweet current track",
+                              message: error.localizedDescription,
+                              preferredStyle: .alert,
+                              actions: [WKAlertAction(title: "Cancel", style: .cancel) {}])
         }
+        
+        Timer.scheduledTimer(withTimeInterval: 4,
+                             repeats: false,
+                             block: { _ in
+            self.tweetBtn.setEnabled(true)
+        })
     }
     
     @IBAction func reset() {
@@ -51,10 +58,12 @@ class InterfaceController: WKInterfaceController {
                                 
                                 let text = info["text"] as? String
                                 self.nowPlayingLabel.setText(text)
-                                self.artwork.setImage(info["artwork"] as? UIImage)
+                                self.artworkSwitch.setOn(info["artworkMode"] as? Bool ?? false)
+                                self.artwork.setImage(info["artworkData"] as? UIImage)
                                 self.tweetBtn.setEnabled(!(text?.isEmpty ?? true))
                                 
         }) { error in
+            self.tweetBtn.setEnabled(false)
             self.presentAlert(withTitle: "Unable to get current track from iPhone",
                               message: error.localizedDescription,
                               preferredStyle: .alert,
