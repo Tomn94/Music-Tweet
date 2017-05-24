@@ -27,7 +27,7 @@
 #import <CommonCrypto/CommonHMAC.h>
 
 #define TDPCEN(s) \
-      ([[s description] stringByAddingPercentEncodingWithAllowedCharacters:[[NSCharacterSet characterSetWithCharactersInString:@"^!*'();:@&=+$,/?%#[]{}\"`<>\\| "] invertedSet]])
+      ([[s description] stringByAddingPercentEncodingWithAllowedCharacters:[[NSCharacterSet characterSetWithCharactersInString:@"^!*'();:@&=+$,/?%#[]{}\"`<>\\| \n"] invertedSet]])
 
 #define TDChomp(s) { \
     const NSUInteger length = [s length]; \
