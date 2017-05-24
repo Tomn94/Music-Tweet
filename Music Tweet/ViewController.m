@@ -27,8 +27,7 @@
     _artworkView.layer.cornerRadius = 5;
     _artworkView.clipsToBounds = YES;
     
-    previousArtworkState = [[NSUserDefaults standardUserDefaults] boolForKey:DEFAULTS_ARTWORK_KEY];
-    _artwork.on = previousArtworkState;
+    _artwork.on = [[NSUserDefaults standardUserDefaults] boolForKey:DEFAULTS_ARTWORK_KEY];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(artworkSettingsChanged:)
                                                  name:@"artworkSettingsChanged" object:nil];
@@ -110,22 +109,20 @@
                         _textField.text = [MusicHandler generateTweetText];
                         _tweetBtn.enabled = YES;
                         
-                        if (_artwork.isEnabled)
-                            previousArtworkState = _artwork.isOn;
-                        
                         UIImage *illustration = [MusicHandler getCurrentArtwork:CGSizeMake(100, 100)];
-                        _artwork.enabled = illustration != nil;
-                        if (!illustration) {
-                            _artwork.on = NO;
-                        } else {
-                            _artworkView.image = illustration;
-                            _artwork.on = previousArtworkState;
-                        }
+                        _artworkView.image = illustration;
+                        if (illustration == nil)
+                            [_artwork setOn:NO];
+                        [_artwork setEnabled:illustration != nil && [[NSUserDefaults standardUserDefaults] boolForKey:DEFAULTS_ARTWORK_KEY]];
                         
                         [_textField becomeFirstResponder];
                     }
                     else
+                    {
                         _textField.text = @"No song is currently playing or paused…";
+                        [_artwork setOn:NO];
+                        [_artwork setEnabled:NO];
+                    }
                     
                     break;
                 }

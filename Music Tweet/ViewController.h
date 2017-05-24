@@ -13,9 +13,6 @@
 #import "ConnectivityHandler.h"
 
 @interface ViewController : UIViewController
-{
-    BOOL previousArtworkState;
-}
 
 @property (weak, nonatomic) IBOutlet UITextView  *textField;
 @property (weak, nonatomic) IBOutlet UISwitch    *artwork;
