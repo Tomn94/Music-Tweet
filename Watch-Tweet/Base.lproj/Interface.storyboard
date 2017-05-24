@@ -9,10 +9,37 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="12029"/>
     </dependencies>
     <scenes>
-        <!--Interface Controller-->
+        <!--Music Tweet-->
         <scene sceneID="aou-V4-d1y">
             <objects>
-                <controller id="AgC-eL-Hgc" customClass="InterfaceController" customModule="Watch_Tweet" customModuleProvider="target"/>
+                <controller title="Music Tweet" id="AgC-eL-Hgc" customClass="InterfaceController" customModule="Watch_Tweet" customModuleProvider="target">
+                    <items>
+                        <group width="1" alignment="left" id="Azs-I5-fCB">
+                            <items>
+                                <label alignment="left" text="Label" id="x94-xT-kFd"/>
+                            </items>
+                            <edgeInsets key="margins" left="0.0" right="0.0" top="5" bottom="0.0"/>
+                        </group>
+                        <group width="1" alignment="left" id="naV-fX-Xn4">
+                            <items>
+                                <button width="1" alignment="left" title="Tweet" id="Sfz-ag-bAQ">
+                                    <color key="titleColor" red="1" green="0.066666666666666666" blue="0.30980392156862746" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="backgroundColor" red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="0.17000000000000001" colorSpace="calibratedRGB"/>
+                                </button>
+                            </items>
+                            <edgeInsets key="margins" left="0.0" right="0.0" top="5" bottom="5"/>
+                        </group>
+                        <switch width="1" alignment="left" value="YES" title="Artwork" id="REy-mi-T2m">
+                            <color key="tintColor" red="1" green="0.066666666666666666" blue="0.30980392156862746" alpha="1" colorSpace="calibratedRGB"/>
+                        </switch>
+                        <imageView alignment="left" id="ro2-ut-jIP"/>
+                    </items>
+                    <menu key="menu" id="sHD-TG-gff">
+                        <items>
+                            <menuItem title="Reset" id="Dru-Lg-pQ6"/>
+                        </items>
+                    </menu>
+                </controller>
             </objects>
         </scene>
     </scenes>
