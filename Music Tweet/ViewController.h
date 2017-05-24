@@ -15,6 +15,10 @@
 
 #define SYSTEM_VERSION_GREATERTHAN_OR_EQUALTO(v) ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 
+#define DEFAULTS_ARTWORK_KEY @"publishArtwork"
+#define DEFAULTS_TOKEN_KEY   @"twitterUserToken"
+#define DEFAULTS_SECRET_KEY  @"twitterUserSecret"
+
 @interface ViewController : UIViewController {
     
     BOOL previousArtworkState;

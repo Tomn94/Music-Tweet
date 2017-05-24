@@ -8,10 +8,6 @@
 
 #import "ViewController.h"
 
-#define DEFAULTS_ARTWORK_KEY @"publishArtwork"
-#define DEFAULTS_TOKEN_KEY   @"twitterUserToken"
-#define DEFAULTS_SECRET_KEY  @"twitterUserSecret"
-
 @implementation ViewController
 
 - (void)viewDidLoad
@@ -135,6 +131,7 @@
 }
 
 - (IBAction) artworkActivationChanged {
+    
     [[NSUserDefaults standardUserDefaults] setBool:_artwork.isOn
                                             forKey:DEFAULTS_ARTWORK_KEY];
 }
@@ -357,7 +354,7 @@
         [parameters setObject:[mediaIDs componentsJoinedByString:@","]
                        forKey:@"media_ids"];
     
-    NSURLRequest *request = [TDOAuth URLRequestForPath:@"/statuses/update"
+    NSURLRequest *request = [TDOAuth URLRequestForPath:@"/1.1/statuses/update.json"
                                         POSTParameters:parameters
                                                   host:@"api.twitter.com"
                                            consumerKey:TWITTER_APP_CONSUMER_KEY
@@ -402,7 +399,7 @@
                 
                 NSString *title = @"Error";
                 NSString *message = @"Unable to tweet";
-                if (json[@"errors"] != nil && [json[@"errors"] count] > 0)
+                if (json != nil && json[@"errors"] != nil && [json[@"errors"] count] > 0)
                 {
                     title   = [title   stringByAppendingFormat:@" %@",   [json[@"errors"] firstObject][@"code"]];
                     message = [message stringByAppendingFormat:@":\n%@", [json[@"errors"] firstObject][@"message"]];
