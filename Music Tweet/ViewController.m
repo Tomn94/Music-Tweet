@@ -272,7 +272,7 @@
                                                   host:@"api.twitter.com"
                                            consumerKey:TWITTER_APP_CONSUMER_KEY
                                         consumerSecret:TWITTER_APP_CONSUMER_SECRET
-                                           accessToken:nil
+                                           accessToken:tokens[@"oauth_token"]
                                            tokenSecret:nil];
     
     NSURLSessionConfiguration *defaultConfigObject = [NSURLSessionConfiguration defaultSessionConfiguration];
