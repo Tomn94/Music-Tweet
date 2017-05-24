@@ -33,6 +33,8 @@
     previousArtworkState = [defaults boolForKey:DEFAULTS_ARTWORK_KEY];
     _artwork.on = previousArtworkState;
     
+    lastTweetTime = 0;
+    
     twitterUserToken  = [defaults objectForKey:DEFAULTS_TOKEN_KEY];  // FIXME: Use Keychain
     twitterUserSecret = [defaults objectForKey:DEFAULTS_SECRET_KEY];
     
@@ -346,6 +348,16 @@
         [self twitter_requestToken];
         return;
     }
+    
+    if ([[NSDate date] timeIntervalSinceReferenceDate] < lastTweetTime + 4) {
+        return;
+    }
+    lastTweetTime = [[NSDate date] timeIntervalSinceReferenceDate];
+    
+    _tweetBtn.enabled = NO;
+    [NSTimer scheduledTimerWithTimeInterval:4 repeats:NO block:^(NSTimer * _Nonnull timer) {
+        _tweetBtn.enabled = YES;
+    }];
     
     if (_artwork.isOn && _artwork.isEnabled && _artworkView.image != nil) {
         [self tweetArtwork];

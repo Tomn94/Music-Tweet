@@ -23,6 +23,8 @@
     
     BOOL previousArtworkState;
     
+    NSTimeInterval lastTweetTime;
+    
     NSString *twitterUserToken;
     NSString *twitterUserSecret;
     
