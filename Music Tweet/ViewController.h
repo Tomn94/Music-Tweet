@@ -8,6 +8,7 @@
 
 @import UIKit;
 @import SafariServices;
+@import AudioToolbox;
 #import "MusicHandler.h"
 #import "TwitterHandler.h"
 #import "ConnectivityHandler.h"

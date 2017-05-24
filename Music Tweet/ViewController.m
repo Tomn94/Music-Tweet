@@ -44,6 +44,9 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(errorOccurred:)
                                                  name:@"errorOccurred" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(tweeted)
+                                                 name:@"tweetSuccess" object:nil];
     
     [self reset:nil];
     
@@ -209,13 +212,32 @@
         [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
+- (void) tweeted
+{
+    AudioServicesPlaySystemSound(1016);
+    if (SYSTEM_VERSION_GREATERTHAN_OR_EQUALTO(@"10")) {
+        UINotificationFeedbackGenerator *generator = [UINotificationFeedbackGenerator new];
+        [generator prepare];
+        [generator notificationOccurred:UINotificationFeedbackTypeSuccess];
+    }
+}
+
 - (void) errorOccurred:(NSNotification *)notif
 {
+    UINotificationFeedbackGenerator *generator;
+    if (SYSTEM_VERSION_GREATERTHAN_OR_EQUALTO(@"10")) {
+        generator = [UINotificationFeedbackGenerator new];
+        [generator prepare];
+    }
+    
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:notif.userInfo[@"title"]
                                                                    message:notif.userInfo[@"message"]
                                                             preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil]];
-    [self presentViewController:alert animated:YES completion:nil];
+    [self presentViewController:alert animated:YES completion:^{
+        if (SYSTEM_VERSION_GREATERTHAN_OR_EQUALTO(@"10"))
+            [generator notificationOccurred:UINotificationFeedbackTypeError];
+    }];
 }
 
 @end

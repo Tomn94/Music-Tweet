@@ -44,6 +44,12 @@
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:loadingCount > 0];
 }
 
+- (void) success
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"tweetSuccess"
+                                                        object:nil];
+}
+
 - (void) error:(NSString *)title
        message:(NSString *)message
 {
@@ -332,12 +338,6 @@
                                                    completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error)
     {
         [TwitterHandler isLoading:NO];
-        UINotificationFeedbackGenerator *generator;
-        if (SYSTEM_VERSION_GREATERTHAN_OR_EQUALTO(@"10")) {
-            generator = [UINotificationFeedbackGenerator new];
-            [generator prepare];
-            [generator notificationOccurred:UINotificationFeedbackTypeSuccess];
-        }
         
         if (error == nil && data != nil)
         {
@@ -348,12 +348,7 @@
             }
             
             if (statusCode == 200)
-            {
-                AudioServicesPlaySystemSound(1016);
-                if (SYSTEM_VERSION_GREATERTHAN_OR_EQUALTO(@"10")) {
-                    [generator notificationOccurred:UINotificationFeedbackTypeSuccess];
-                }
-            }
+                [self success];
             else
             {
                 NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
@@ -368,21 +363,11 @@
                 
                 [self error:title
                     message:message];
-                
-                if (SYSTEM_VERSION_GREATERTHAN_OR_EQUALTO(@"10")) {
-                    [generator notificationOccurred:UINotificationFeedbackTypeError];
-                }
             }
         }
         else
-        {
             [self error:@"Network Error"
                 message:@"Unable to tweet"];
-            
-            if (SYSTEM_VERSION_GREATERTHAN_OR_EQUALTO(@"10")) {
-                [generator notificationOccurred:UINotificationFeedbackTypeError];
-            }
-        }
     }];
     [task resume];
     [TwitterHandler isLoading:YES];

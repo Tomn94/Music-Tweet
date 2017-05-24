@@ -253,8 +253,8 @@
 		64D85EBE1ED5ACE200547615 /* Watch-Tweet Extension */ = {
 			isa = PBXGroup;
 			children = (
-				64D85EBF1ED5ACE200547615 /* InterfaceController.swift */,
 				64D85EC11ED5ACE200547615 /* ExtensionDelegate.swift */,
+				64D85EBF1ED5ACE200547615 /* InterfaceController.swift */,
 				64D85EC31ED5ACE200547615 /* Assets.xcassets */,
 				64D85EC51ED5ACE200547615 /* Info.plist */,
 			);
