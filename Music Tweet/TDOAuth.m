@@ -307,7 +307,34 @@ static NSString* timestamp() {
     {
         oauth->url = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"%@://%@%@",
                                                     scheme, host, encodedPathWithoutQuery]];
-        if ((dataEncoding == TDOAuthContentTypeUrlEncodedForm) || (unencodedParameters == nil))
+        if (dataEncoding == TDOAuthContentTypeMultipartForm)
+        {
+            NSMutableData *httpBody = [NSMutableData data];
+            
+            NSString *boundary = [NSString stringWithFormat:@"Boundary-%@", [NSUUID UUID].UUIDString];
+            
+            [unencodedParameters enumerateKeysAndObjectsUsingBlock:^(NSString *parameterKey, NSString *parameterValue, BOOL *stop) {
+                [httpBody appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+                [httpBody appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"\r\n\r\n", TDPCEN(parameterKey)] dataUsingEncoding:NSUTF8StringEncoding]];
+                [httpBody appendData:[[NSString stringWithFormat:@"%@\r\n", TDPCEN(parameterValue)] dataUsingEncoding:NSUTF8StringEncoding]];
+            }];
+            
+            for (NSDictionary *info in rawPOSTdata) {
+                [httpBody appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+                [httpBody appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"; filename=\"%@\"\r\n", info[@"name"], info[@"file"]] dataUsingEncoding:NSUTF8StringEncoding]];
+                [httpBody appendData:[[NSString stringWithFormat:@"Content-Type: %@\r\n\r\n", info[@"type"]] dataUsingEncoding:NSUTF8StringEncoding]];
+                [httpBody appendData:info[@"data"]];
+                [httpBody appendData:[@"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+            }
+            
+            [httpBody appendData:[[NSString stringWithFormat:@"--%@--\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+            
+            rq = [oauth requestWithHeaderValues:headerValues];
+            
+            [rq setValue:[NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary] forHTTPHeaderField:@"Content-Type"];
+            [rq setHTTPBody:httpBody];
+        }
+        else if ((dataEncoding == TDOAuthContentTypeUrlEncodedForm) || (unencodedParameters == nil))
         {
             NSMutableString *postbody = [oauth setParameters:unencodedParameters];
             rq = [oauth requestWithHeaderValues:headerValues];
@@ -334,33 +361,6 @@ static NSString* timestamp() {
                     [rq setValue:[NSString stringWithFormat:@"%lu", (unsigned long)rq.HTTPBody.length] forHTTPHeaderField:@"Content-Length"];
                 }
             }
-        }
-        else if (dataEncoding == TDOAuthContentTypeMultipartForm)
-        {
-            NSMutableData *httpBody = [NSMutableData data];
-            
-            NSString *boundary = [NSString stringWithFormat:@"Boundary-%@", [NSUUID UUID].UUIDString];
-            
-            [unencodedParameters enumerateKeysAndObjectsUsingBlock:^(NSString *parameterKey, NSString *parameterValue, BOOL *stop) {
-                [httpBody appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-                [httpBody appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"\r\n\r\n", TDPCEN(parameterKey)] dataUsingEncoding:NSUTF8StringEncoding]];
-                [httpBody appendData:[[NSString stringWithFormat:@"%@\r\n", TDPCEN(parameterValue)] dataUsingEncoding:NSUTF8StringEncoding]];
-            }];
-            
-            for (NSDictionary *info in rawPOSTdata) {
-                [httpBody appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-                [httpBody appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"; filename=\"%@\"\r\n", info[@"name"], info[@"file"]] dataUsingEncoding:NSUTF8StringEncoding]];
-                [httpBody appendData:[[NSString stringWithFormat:@"Content-Type: %@\r\n\r\n", info[@"type"]] dataUsingEncoding:NSUTF8StringEncoding]];
-                [httpBody appendData:info[@"data"]];
-                [httpBody appendData:[@"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
-            }
-            
-            [httpBody appendData:[[NSString stringWithFormat:@"--%@--\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-            
-            rq = [oauth requestWithHeaderValues:headerValues];
-            
-            [rq setValue:[NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary] forHTTPHeaderField:@"Content-Type"];
-            [rq setHTTPBody:httpBody];
         }
         else // invalid type
         {
