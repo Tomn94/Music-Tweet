@@ -219,7 +219,7 @@ static NSString* timestamp() {
                        consumerSecret:consumerSecret
                           accessToken:accessToken
                           tokenSecret:tokenSecret
-                               scheme:@"http"
+                               scheme:@"https"
                         requestMethod:@"GET"
                          dataEncoding:TDOAuthContentTypeUrlEncodedForm
                          headerValues:nil
