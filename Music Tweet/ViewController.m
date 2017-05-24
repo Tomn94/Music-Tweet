@@ -10,6 +10,7 @@
 
 #define DEFAULTS_ARTWORK_KEY @"publishArtwork"
 #define DEFAULTS_TOKEN_KEY   @"twitterUserToken"
+#define DEFAULTS_SECRET_KEY  @"twitterUserSecret"
 
 @implementation ViewController
 
@@ -36,7 +37,8 @@
     previousArtworkState = [defaults boolForKey:DEFAULTS_ARTWORK_KEY];
     _artwork.on = previousArtworkState;
     
-    twitterUserToken = [defaults objectForKey:DEFAULTS_TOKEN_KEY]; // FIXME: Use Keychain
+    twitterUserToken  = [defaults objectForKey:DEFAULTS_TOKEN_KEY];  // FIXME: Use Keychain
+    twitterUserSecret = [defaults objectForKey:DEFAULTS_SECRET_KEY];
     
     [self reset:nil];
     
@@ -299,6 +301,12 @@
                 }
             }
             if (token != nil && secret != nil) {
+                
+                twitterUserToken  = token;
+                twitterUserSecret = secret;
+                NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+                [defaults setObject:twitterUserToken  forKey:DEFAULTS_TOKEN_KEY];
+                [defaults setObject:twitterUserSecret forKey:DEFAULTS_SECRET_KEY];
                 
                 UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"You're connected!"
                                                                                message:@"Tweeting your music now…"
