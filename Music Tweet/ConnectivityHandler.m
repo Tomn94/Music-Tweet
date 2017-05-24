@@ -82,7 +82,9 @@ activationDidCompleteWithState:(WCSessionActivationState)activationState
     else if (message[@"get"] != nil)
     {
         if ([message[@"get"] isEqualToString:@"info"])
-            [self sendInfo];
+        {
+            replyHandler([self infoToSend]);
+        }
     }
     else if (message[@"setArworkOn"] != nil)
     {
@@ -97,16 +99,32 @@ activationDidCompleteWithState:(WCSessionActivationState)activationState
 
 #pragma mark - Dispatch
 
+- (NSDictionary *) infoToSend
+{
+    NSMutableDictionary *info = @{ @"text": @"",
+                                   @"artworkMode": @([[NSUserDefaults standardUserDefaults] boolForKey:DEFAULTS_ARTWORK_KEY]) }.mutableCopy;
+    
+    NSString *text = [MusicHandler generateTweetText];
+    if (text)
+        info[@"text"] = [MusicHandler generateTweetText];
+    
+    UIImage *artwork = [MusicHandler getCurrentArtwork];
+    if (artwork)
+        info[@"artworkData"] = UIImageJPEGRepresentation([MusicHandler getCurrentArtwork], 0.8);
+    
+    return info;
+}
+
 - (void) sendInfo
 {
     if (!self.isSessionValid)
         return;
     
-    [session sendMessage:@{ @"info": @{ @"text":    [MusicHandler generateTweetText],
-                                        @"artwork": UIImageJPEGRepresentation([MusicHandler getCurrentArtwork], 0.8) } }
+    [session sendMessage:@{ @"info": [self infoToSend] }
             replyHandler:nil
             errorHandler:nil];
 }
+
 
 - (void) artworkActivationChanged:(BOOL)activated
 {
