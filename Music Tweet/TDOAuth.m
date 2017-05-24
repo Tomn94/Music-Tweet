@@ -309,6 +309,8 @@ static NSString* timestamp() {
                                                     scheme, host, encodedPathWithoutQuery]];
         if (dataEncoding == TDOAuthContentTypeMultipartForm)
         {
+            [oauth setParameters:nil];
+            
             NSMutableData *httpBody = [NSMutableData data];
             
             NSString *boundary = [NSString stringWithFormat:@"Boundary-%@", [NSUUID UUID].UUIDString];
