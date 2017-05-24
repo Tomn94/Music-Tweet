@@ -138,12 +138,15 @@
     [ConnectivityHandler.sharedHandler sendInfo];
 }
 
-- (BOOL)             textField:(UITextField *)textField
- shouldChangeCharactersInRange:(NSRange)range
-             replacementString:(NSString *)string
+
+- (BOOL)        textView:(UITextView *)textView
+ shouldChangeTextInRange:(NSRange)range
+         replacementText:(NSString *)text
 {
-    NSString *proposedNewString = [textField.text stringByReplacingCharactersInRange:range withString:string];
+    NSString *proposedNewString = [textView.text stringByReplacingCharactersInRange:range
+                                                                         withString:text];
     [MusicHandler.sharedHandler setTweetText:proposedNewString];
+    
     [ConnectivityHandler.sharedHandler sendInfo];
     
     return YES;
