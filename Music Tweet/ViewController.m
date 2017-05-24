@@ -144,7 +144,7 @@
     twitterSignInToken = nil;
     
     NSURLRequest *request = [TDOAuth URLRequestForPath:@"/oauth/request_token"
-                                        POSTParameters:@{ @"oauth_callback" : @"musictweet://sign" }
+                                        POSTParameters:@{ @"oauth_callback": @"musictweet://sign" }
                                                   host:@"api.twitter.com"
                                            consumerKey:TWITTER_APP_CONSUMER_KEY
                                         consumerSecret:TWITTER_APP_CONSUMER_SECRET
@@ -158,7 +158,7 @@
                                                                               delegateQueue:[NSOperationQueue mainQueue]];
     
     NSURLSessionDataTask *task = [defaultSession dataTaskWithRequest:request
-                                                   completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {;
+                                                   completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
          [ViewController isLoading:NO];
          
          if (error == nil && data != nil)
@@ -240,10 +240,7 @@
     if (notif.userInfo[@"oauth_token"] != nil && notif.userInfo[@"oauth_verifier"] != nil)
     {
         if ([notif.userInfo[@"oauth_token"] isEqualToString:twitterSignInToken])
-        {
-            twitterSignInToken = nil;
             [self twitter_requestAccessToken:notif.userInfo];
-        }
         else
         {
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error"
@@ -265,7 +262,72 @@
 
 - (void) twitter_requestAccessToken:(NSDictionary *)tokens
 {
+    twitterSignInToken = nil;
     
+    NSURLRequest *request = [TDOAuth URLRequestForPath:@"/oauth/access_token"
+                                        POSTParameters:@{ @"oauth_verifier": tokens[@"oauth_verifier"] }
+                                                  host:@"api.twitter.com"
+                                           consumerKey:TWITTER_APP_CONSUMER_KEY
+                                        consumerSecret:TWITTER_APP_CONSUMER_SECRET
+                                           accessToken:nil
+                                           tokenSecret:nil];
+    
+    /* Create & send network task */
+    NSURLSessionConfiguration *defaultConfigObject = [NSURLSessionConfiguration defaultSessionConfiguration];
+    NSURLSession              *defaultSession      = [NSURLSession sessionWithConfiguration:defaultConfigObject
+                                                                                   delegate:nil
+                                                                              delegateQueue:[NSOperationQueue mainQueue]];
+    
+    NSURLSessionDataTask *task = [defaultSession dataTaskWithRequest:request
+                                                   completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error)
+    {
+        [ViewController isLoading:NO];
+                                                       
+        if (error == nil && data != nil)
+        {
+            NSString *raw = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+            NSString *token = nil;
+            NSString *secret = nil;
+            NSArray *parameters = [raw componentsSeparatedByString:@"&"];
+            for (NSString *parameter in parameters) {
+                NSArray *keyValue = [parameter componentsSeparatedByString:@"="];
+                if ([keyValue count] == 2) {
+                    if ([keyValue[0] isEqualToString:@"oauth_token"])
+                        token = keyValue[1];
+                    else if ([keyValue[0] isEqualToString:@"oauth_token_secret"])
+                        secret = keyValue[1];
+                }
+            }
+            if (token != nil && secret != nil) {
+                
+                UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"You're connected!"
+                                                                               message:@"Tweeting your music now…"
+                                                                        preferredStyle:UIAlertControllerStyleAlert];
+                [alert addAction:[UIAlertAction actionWithTitle:@"Let's go" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                    [self tweet];
+                }]];
+                [self presentViewController:alert animated:YES completion:nil];
+            }
+            else
+            {
+                UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error"
+                                                                               message:@"Unable to get a valid Access Token from Twitter"
+                                                                        preferredStyle:UIAlertControllerStyleAlert];
+                [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil]];
+                [self presentViewController:alert animated:YES completion:nil];
+            }
+        }
+        else
+        {
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error"
+                                                                           message:@"Unable to get an Access Token from Twitter"
+                                                                    preferredStyle:UIAlertControllerStyleAlert];
+            [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil]];
+            [self presentViewController:alert animated:YES completion:nil];
+        }
+    }];
+    [task resume];
+    [ViewController isLoading:YES];
 }
 
 - (void) tweet
