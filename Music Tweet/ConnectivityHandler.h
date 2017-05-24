@@ -19,8 +19,8 @@
 + (ConnectivityHandler *) sharedHandler;
 - (void) startSession;
 
-- (void) sendInfos;
+- (void) sendInfo;
 - (void) artworkActivationChanged:(BOOL)activated;
-- (void) sendAlert:(NSDictionary *)infos;
+- (void) sendAlert:(NSDictionary *)info;
 
 @end

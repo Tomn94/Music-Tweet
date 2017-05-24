@@ -136,7 +136,7 @@
         });
     }];
     
-    [ConnectivityHandler.sharedHandler sendInfos];
+    [ConnectivityHandler.sharedHandler sendInfo];
 }
 
 - (IBAction) artworkActivationChanged

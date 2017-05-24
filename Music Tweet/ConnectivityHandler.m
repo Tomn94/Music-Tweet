@@ -36,6 +36,9 @@
 
 - (BOOL) isSessionValid
 {
+    if (!WCSession.isSupported)
+        return NO;
+    
     return session.paired && session.watchAppInstalled && session.reachable;
 }
 
@@ -79,7 +82,7 @@ activationDidCompleteWithState:(WCSessionActivationState)activationState
     else if (message[@"get"] != nil)
     {
         if ([message[@"get"] isEqualToString:@"info"])
-            [self sendInfos];
+            [self sendInfo];
     }
     else if (message[@"setArworkOn"] != nil)
     {
@@ -94,19 +97,39 @@ activationDidCompleteWithState:(WCSessionActivationState)activationState
 
 #pragma mark - Dispatch
 
-- (void) sendInfos
+- (void) sendInfo
 {
+    if (!self.isSessionValid)
+        return;
     
+    [session sendMessage:@{ @"info": @{ @"text":    [MusicHandler generateTweetText],
+                                        @"artwork": UIImageJPEGRepresentation([MusicHandler getCurrentArtwork], 0.8) } }
+            replyHandler:nil
+            errorHandler:nil];
 }
 
 - (void) artworkActivationChanged:(BOOL)activated
 {
+    if (!self.isSessionValid)
+        return;
     
+    [session sendMessage:@{ @"setArworkOn": @(activated) }
+            replyHandler:nil
+            errorHandler:nil];
 }
 
-- (void) sendAlert:(NSDictionary *)infos
+- (void) sendAlert:(NSDictionary *)info
 {
+    if (!self.isSessionValid)
+        return;
     
+    if (info == nil || info[@"title"] == nil || info[@"message"] == nil)
+        return;
+    
+    [session sendMessage:@{ @"alert": @{ @"title":   info[@"title"],
+                                         @"message": info[@"message"] } }
+            replyHandler:nil
+            errorHandler:nil];
 }
 
 @end
