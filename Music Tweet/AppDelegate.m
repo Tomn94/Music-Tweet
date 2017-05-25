@@ -31,6 +31,9 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
     return YES;
 }
 
+
+#pragma mark - Twitter Sign In process
+
 /**
  Twitter callback after user login.
  Gets the `oauth_verifier` value from Twitter in the OAuth process after Step 2
@@ -77,6 +80,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
     
     return NO;
 }
+
 
 #pragma mark - Handoff
 
