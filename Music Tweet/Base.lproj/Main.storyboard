@@ -76,7 +76,7 @@
                                     <color key="titleColor" red="1" green="0.92282443579999995" blue="0.65049913189999997" alpha="0.6953660103" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="reset:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="PDV-IM-0ey"/>
+                                    <action selector="reset" destination="vXZ-lx-hvc" eventType="touchUpInside" id="iHi-bw-mie"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xet-va-S7c">
@@ -89,7 +89,7 @@
                                     <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="share:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="rqe-vh-Nuc"/>
+                                    <action selector="share" destination="vXZ-lx-hvc" eventType="touchUpInside" id="KOY-hv-j1C"/>
                                 </connections>
                             </button>
                         </subviews>

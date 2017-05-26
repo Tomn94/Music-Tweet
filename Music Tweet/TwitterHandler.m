@@ -63,6 +63,12 @@
 
 #pragma mark - Sign In with Twitter
 
+- (BOOL) isConnected
+{
+    NSString *token = TwitterHandler.sharedHandler.twitterUserToken;
+    return token != nil && ![token isEqualToString:@""];
+}
+
 - (void) requestToken
 {
     _twitterSignInToken = nil;

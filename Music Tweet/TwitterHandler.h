@@ -29,6 +29,7 @@
 
 + (TwitterHandler *) sharedHandler;
 
+- (BOOL) isConnected;
 - (void) requestToken;
 - (void) receivedCallback:(NSDictionary *)info;
 - (void) tweet;
