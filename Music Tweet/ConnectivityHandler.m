@@ -156,13 +156,16 @@ activationDidCompleteWithState:(WCSessionActivationState)activationState
  */
 - (NSDictionary *) infoToSend
 {
+    /* Prepare package to send */
     NSMutableDictionary *info = @{ @"text": @"",
                                    @"artworkMode": @([[NSUserDefaults standardUserDefaults] boolForKey:DEFAULTS_ARTWORK_KEY]) }.mutableCopy;
     
+    /* Fill with current tweet text */
     NSString *text = [MusicHandler.sharedHandler tweetText];
     if (text)
         info[@"text"] = [MusicHandler.sharedHandler tweetText];
     
+    /* Fill with current artwork */
     UIImage *artwork = [MusicHandler.sharedHandler getArtworkAt:CGSizeMake(100, 100)];
     if (artwork)
         info[@"artworkData"] = UIImageJPEGRepresentation(artwork, 0.8);
@@ -172,6 +175,9 @@ activationDidCompleteWithState:(WCSessionActivationState)activationState
 
 - (void) tweeted
 {
+    if (!self.isSessionValid)
+        return;
+    
     [session sendMessage:@{ @"tweeted": @(YES) }
             replyHandler:nil
             errorHandler:nil];
@@ -203,6 +209,7 @@ activationDidCompleteWithState:(WCSessionActivationState)activationState
     if (!self.isSessionValid)
         return;
     
+    /* Filter `info` dictionary */
     if (info == nil || info[@"title"] == nil || info[@"message"] == nil)
         return;
     
