@@ -393,7 +393,7 @@
 /**
  Post text to Twitter
 
- @param mediaIDs Array of media (artworks) ID strings to be published with tweet
+ @param mediaIDs Array of media (artworks) ID strings to be published with tweet.
                  nil if text-only
  */
 - (void) tweetTextWith:(NSArray*)mediaIDs

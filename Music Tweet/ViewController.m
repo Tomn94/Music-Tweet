@@ -28,6 +28,9 @@
     
     _artworkView.layer.cornerRadius = 5;
     _artworkView.clipsToBounds = YES;
+    _artworkView.userInteractionEnabled = YES;
+    [_artworkView addGestureRecognizer:[[UILongPressGestureRecognizer alloc] initWithTarget:self
+                                                                                     action:@selector(copyArtwork:)]];
     
     
     /* Load Artwork Switch state from previous settings */
@@ -172,6 +175,27 @@
             }
         });
     }];
+}
+
+/**
+ Copy presented artwork to pasteboard
+ */
+- (void) copyArtwork:(UILongPressGestureRecognizer *)sender
+{
+    if (sender.state != UIGestureRecognizerStateBegan)
+        return;
+    
+    UIImage *artwork = [MusicHandler.sharedHandler getArtwork];
+    if (artwork == nil)
+        return;
+    
+    [[UIPasteboard generalPasteboard] setImage:artwork];
+    
+    if (SYSTEM_VERSION_GREATERTHAN_OR_EQUALTO(@"10")) {
+        UINotificationFeedbackGenerator *generator = [UINotificationFeedbackGenerator new];
+        [generator prepare];
+        [generator notificationOccurred:UINotificationFeedbackTypeError];
+    }
 }
 
 
