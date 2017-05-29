@@ -182,15 +182,19 @@
  */
 - (void) copyArtwork:(UILongPressGestureRecognizer *)sender
 {
+    /* Avoid being called multiple times before releasing finger */
     if (sender.state != UIGestureRecognizerStateBegan)
         return;
     
+    /* Get artwork, and assure the media has one */
     UIImage *artwork = [MusicHandler.sharedHandler getArtwork];
     if (artwork == nil)
         return;
     
+    /* Copy */
     [[UIPasteboard generalPasteboard] setImage:artwork];
     
+    /* Notify */
     if (SYSTEM_VERSION_GREATERTHAN_OR_EQUALTO(@"10")) {
         UINotificationFeedbackGenerator *generator = [UINotificationFeedbackGenerator new];
         [generator prepare];
