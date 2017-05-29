@@ -245,7 +245,7 @@
 #pragma mark - Twitter callbacks
 
 /**
- TwitterHandler required the user to login on Twitter.com and to approve the app
+ TwitterHandler required the user to login on Twitter.com and to approve the app (phase 3)
 
  @param notif Dictionary containing the "url" key to display
  */

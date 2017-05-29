@@ -19,9 +19,8 @@
             instance = [[MusicHandler allocWithZone:NULL] init];
         });
         
-        instance->_tweetText = [MusicHandler generateTweetText];
-        instance->_artwork   = [MusicHandler fetchCurrentArtwork];
-        
+        /* Init first data with current track */
+        [instance reset];
     }
     return instance;
 }
@@ -32,6 +31,7 @@
         return NO;
     
     MPMediaItem *currentItem = [[MPMusicPlayerController systemMusicPlayer] nowPlayingItem];
+    
     return currentItem != nil;
 }
 
@@ -42,6 +42,7 @@
     
     MPMediaItem *currentItem = [[MPMusicPlayerController systemMusicPlayer] nowPlayingItem];
     
+    /* Set up text with seperators and music info */
     NSString *s1 = @"#NP ▶️ ";
     NSString *s2 = [s1 stringByAppendingString:[currentItem valueForProperty:MPMediaItemPropertyTitle]];
     NSString *s3 = [s2 stringByAppendingString:@" — "];
@@ -73,6 +74,7 @@
 
 - (void) reset
 {
+    /* Regenerate content */
     [self setTweetText:[MusicHandler generateTweetText]];
     [self setArtwork:[MusicHandler fetchCurrentArtwork]];
 }

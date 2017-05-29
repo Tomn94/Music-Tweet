@@ -14,6 +14,14 @@
 #import "ConnectivityHandler.h"
 
 /**
+ Check method availability for iOS SDK calls
+
+ @param v Lowest iOS version requested
+ @return YES if the current version of iOS is equal or newer that the requested one
+ */
+#define SYSTEM_VERSION_GREATERTHAN_OR_EQUALTO(v) ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
+
+/**
  One and only screen of the app.
  Shows a text view and an image view to preview text & image to tweet,
  with also a switch for text-only tweets,

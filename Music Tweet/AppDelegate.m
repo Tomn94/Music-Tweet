@@ -35,8 +35,8 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 #pragma mark - Twitter Sign In process
 
 /**
- Twitter callback after user login.
- Gets the `oauth_verifier` value from Twitter in the OAuth process after Step 2
+ Twitter callback after user login. (phase 4)
+ Gets the `oauth_verifier` value from Twitter in the OAuth process
  c.f. https://dev.twitter.com/web/sign-in/implementing
 
  @param application This singleton object
