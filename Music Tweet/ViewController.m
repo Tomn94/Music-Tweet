@@ -62,6 +62,11 @@
                     selector:@selector(signInFinished)
                         name:@"signInFinished" object:nil];
     
+    /* Reset asked by Wathc */
+    [notifCenter addObserver:self
+                    selector:@selector(reset)
+                        name:@"reset" object:nil];
+    
     
     /* Init tweet text & artwork at launch with updated data */
     [self reset];

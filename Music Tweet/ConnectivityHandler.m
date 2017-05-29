@@ -76,7 +76,8 @@ activationDidCompleteWithState:(WCSessionActivationState)activationState
 #pragma mark - Reception
 
 /**
- Handles reception of messages from Watch that don't require a reply
+ Handles reception of messages from Watch.
+ Reply handler is not used if needed, another message is sent instead.
 
  @param session Session carrying the message
  @param message Content of the message,
@@ -85,6 +86,17 @@ activationDidCompleteWithState:(WCSessionActivationState)activationState
 - (void)   session:(WCSession *)session
  didReceiveMessage:(NSDictionary<NSString *,id> *)message
 {
+    /* Handles multiple values asked by Watch */
+    if (message[@"get"] != nil)
+    {
+        /* If we need tweet text and artwork */
+        if ([message[@"get"] isEqualToString:@"info"])
+        {
+            /* Send back tweet text, artwork and its settings to the Watch */
+            [self sendInfo];
+        }
+    }
+    
     /* Handles a set of actions */
     if (message[@"action"] != nil)
     {
@@ -102,6 +114,13 @@ activationDidCompleteWithState:(WCSessionActivationState)activationState
             else
                 [TwitterHandler.sharedHandler tweet];
         }
+        
+        /* User tapped Reset on the Watch */
+        if ([message[@"action"] isEqualToString:@"reset"])
+        {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"reset"
+                                                                object:nil];
+        }
     }
     
     /* If the user changed Artwork settings on the Watch */
@@ -117,30 +136,6 @@ activationDidCompleteWithState:(WCSessionActivationState)activationState
         [[NSNotificationCenter defaultCenter] postNotificationName:@"artworkSettingsChanged"
                                                             object:nil
                                                           userInfo:@{ @"on": @(activated) }];
-    }
-}
-
-/**
- Handles reception of messages from Watch that don't require a reply
- 
- @param session Session carrying the message
- @param message Content of the message,
-                typically a main key describing the intent, and its content
- @param replyHandler Block called by the counterpart as a reply
- */
-- (void)   session:(WCSession *)session
- didReceiveMessage:(NSDictionary<NSString *,id> *)message
-      replyHandler:(void (^)(NSDictionary<NSString *,id> * _Nonnull))replyHandler
-{
-    /* Handles multiple values to be recuperated */
-    if (message[@"get"] != nil)
-    {
-        /* If we need tweet text and artwork */
-        if ([message[@"get"] isEqualToString:@"info"])
-        {
-            /* Send back tweet text, artwork and its settings to the Watch */
-            replyHandler([self infoToSend]);
-        }
     }
 }
 
