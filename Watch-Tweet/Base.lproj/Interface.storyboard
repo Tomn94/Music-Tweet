@@ -32,7 +32,7 @@
                             </items>
                             <edgeInsets key="margins" left="0.0" right="0.0" top="5" bottom="5"/>
                         </group>
-                        <switch width="1" alignment="left" value="YES" title="Artwork" id="REy-mi-T2m">
+                        <switch width="1" alignment="left" value="YES" enabled="NO" title="Artwork" id="REy-mi-T2m">
                             <color key="tintColor" red="1" green="0.066666666666666666" blue="0.30980392156862746" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="artworkActivationChanged:" destination="AgC-eL-Hgc" id="Hoo-Bo-Kda"/>
@@ -42,7 +42,12 @@
                     </items>
                     <menu key="menu" id="sHD-TG-gff">
                         <items>
-                            <menuItem title="Reset" icon="repeat" id="Dru-Lg-pQ6">
+                            <menuItem title="Refresh" icon="repeat" id="XDZ-IP-74z">
+                                <connections>
+                                    <action selector="load" destination="AgC-eL-Hgc" id="Mnr-hh-5b0"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Reset" icon="trash" id="Dru-Lg-pQ6">
                                 <connections>
                                     <action selector="reset" destination="AgC-eL-Hgc" id="YOb-BU-EcR"/>
                                 </connections>
