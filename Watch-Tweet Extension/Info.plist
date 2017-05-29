@@ -19,11 +19,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>2.0</string>
 	<key>CFBundleVersion</key>
-	<string>2.0</string>
-	<key>NSUserActivityTypes</key>
-	<array>
-		<string>com.tomn.Music-Tweet.tweet</string>
-	</array>
+	<string>2.0.1</string>
 	<key>NSExtension</key>
 	<dict>
 		<key>NSExtensionAttributes</key>
@@ -34,6 +30,10 @@
 		<key>NSExtensionPointIdentifier</key>
 		<string>com.apple.watchkit</string>
 	</dict>
+	<key>NSUserActivityTypes</key>
+	<array>
+		<string>com.tomn.Music-Tweet.tweet</string>
+	</array>
 	<key>WKExtensionDelegateClassName</key>
 	<string>$(PRODUCT_MODULE_NAME).ExtensionDelegate</string>
 </dict>

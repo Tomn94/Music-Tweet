@@ -19,15 +19,15 @@
 	<key>CFBundleShortVersionString</key>
 	<string>2.0</string>
 	<key>CFBundleVersion</key>
-	<string>2.0</string>
+	<string>2.0.1</string>
+	<key>NSUserActivityTypes</key>
+	<array>
+		<string>com.tomn.Music-Tweet.tweet</string>
+	</array>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
-	</array>
-	<key>NSUserActivityTypes</key>
-	<array>
-		<string>com.tomn.Music-Tweet.tweet</string>
 	</array>
 	<key>WKCompanionAppBundleIdentifier</key>
 	<string>com.tomn.Music-Tweet</string>

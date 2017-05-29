@@ -112,10 +112,13 @@
  */
 - (IBAction) reset
 {
-    /* Disable everything by default, if we have no access */
-    _textField.text = @"";
-    _tweetBtn.enabled = NO;
-    _artworkView.image = nil;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        /* Disable everything by default, if we have no access */
+        _textField.text = @"";
+        _tweetBtn.enabled = NO;
+        _artworkView.image = nil;
+    });
     
     /* Request access to the music library of the user */
     [MPMediaLibrary requestAuthorization:^(MPMediaLibraryAuthorizationStatus status) {
