@@ -20,6 +20,7 @@
 		6410FF2718F9BA4700DACFBE /* Music_TweetTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6410FF2618F9BA4700DACFBE /* Music_TweetTests.m */; };
 		6410FF3318F9BAD000DACFBE /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6410FF3218F9BAD000DACFBE /* MediaPlayer.framework */; };
 		641226581ED4F4C800ACE1AA /* TDOAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = 641226571ED4F4C700ACE1AA /* TDOAuth.m */; };
+		64341A311F2A3A2900114D6C /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 64341A331F2A3A2900114D6C /* Launch Screen.storyboard */; };
 		64D85EB21ED5ACE200547615 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 64D85EB01ED5ACE200547615 /* Interface.storyboard */; };
 		64D85EB41ED5ACE200547615 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 64D85EB31ED5ACE200547615 /* Assets.xcassets */; };
 		64D85EBB1ED5ACE200547615 /* Watch-Tweet Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 64D85EBA1ED5ACE200547615 /* Watch-Tweet Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -106,6 +107,7 @@
 		641226551ED2550700ACE1AA /* Secrets.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Secrets.h; sourceTree = "<group>"; };
 		641226561ED4F4C700ACE1AA /* TDOAuth.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDOAuth.h; sourceTree = "<group>"; };
 		641226571ED4F4C700ACE1AA /* TDOAuth.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDOAuth.m; sourceTree = "<group>"; };
+		64341A321F2A3A2900114D6C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = "Base.lproj/Launch Screen.storyboard"; sourceTree = "<group>"; };
 		64D85EAE1ED5ACE200547615 /* Watch-Tweet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Watch-Tweet.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		64D85EB11ED5ACE200547615 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
 		64D85EB31ED5ACE200547615 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -194,6 +196,7 @@
 				6410FF0A18F9BA4600DACFBE /* AppDelegate.h */,
 				6410FF0B18F9BA4600DACFBE /* AppDelegate.m */,
 				6410FF0D18F9BA4600DACFBE /* Main.storyboard */,
+				64341A331F2A3A2900114D6C /* Launch Screen.storyboard */,
 				6410FF1018F9BA4600DACFBE /* ViewController.h */,
 				6410FF1118F9BA4700DACFBE /* ViewController.m */,
 				64D85ED21ED5C30400547615 /* ConnectivityHandler.h */,
@@ -391,6 +394,7 @@
 			files = (
 				6410FF1418F9BA4700DACFBE /* Images.xcassets in Resources */,
 				6410FF0618F9BA4600DACFBE /* InfoPlist.strings in Resources */,
+				64341A311F2A3A2900114D6C /* Launch Screen.storyboard in Resources */,
 				6410FF0F18F9BA4600DACFBE /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -497,6 +501,14 @@
 				6410FF2418F9BA4700DACFBE /* en */,
 			);
 			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		64341A331F2A3A2900114D6C /* Launch Screen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				64341A321F2A3A2900114D6C /* Base */,
+			);
+			name = "Launch Screen.storyboard";
 			sourceTree = "<group>";
 		};
 		64D85EB01ED5ACE200547615 /* Interface.storyboard */ = {
