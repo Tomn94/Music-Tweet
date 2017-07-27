@@ -118,6 +118,8 @@
         _textField.text = @"";
         _tweetBtn.enabled = NO;
         _artworkView.image = nil;
+        [_artwork setOn:NO];
+        [_artwork setEnabled:NO];
     });
     
     /* Request access to the music library of the user */
@@ -157,9 +159,8 @@
                         _artworkView.image = illustration;
                         
                         /* Disable and deactivate Artwork switch if there's no artwork */
-                        if (illustration == nil)
-                            [_artwork setOn:NO];
-                        [_artwork setEnabled:illustration != nil && [[NSUserDefaults standardUserDefaults] boolForKey:DEFAULTS_ARTWORK_KEY]];
+                        [_artwork setOn:illustration != nil && [[NSUserDefaults standardUserDefaults] boolForKey:DEFAULTS_ARTWORK_KEY]];
+                        [_artwork setEnabled:illustration != nil];
                         
                         /* Update text and show keyboard for any quick editing */
                         _textField.text = [MusicHandler.sharedHandler tweetText];
@@ -169,11 +170,7 @@
                         [ConnectivityHandler.sharedHandler sendInfo];
                     }
                     else
-                    {
                         _textField.text = @"No song is currently playing or paused…";
-                        [_artwork setOn:NO];
-                        [_artwork setEnabled:NO];
-                    }
                     
                     break;
                 }
