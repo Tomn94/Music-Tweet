@@ -31,7 +31,7 @@ class InterfaceController: WKInterfaceController {
         super.willActivate()
         
         /* Start connectivity with iPhone */
-        session = WCSession.default
+        session = WCSession.default()
         session?.delegate = self
         session?.activate()
         
